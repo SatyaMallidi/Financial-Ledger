@@ -18,7 +18,7 @@ import lombok.Data;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Transaction_id;
+    private Long Transaction_id;
 
     @Column(nullable = false)
     private LocalDate date;
@@ -35,5 +35,18 @@ public class Transaction {
     
     @Enumerated(EnumType.STRING)
     private TransactionType type;
+
+    public Transaction(int transaction_id, LocalDate date, Double amount, String description, User user,
+            TransactionType type) {
+        Transaction_id = transaction_id;
+        this.date = date;
+        this.amount = amount;
+        this.description = description;
+        this.user = user;
+        this.type = type;
+    }
+
+    public Transaction() {
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.example.dataworks.financialledger.entity;
 
-public enum TransactionType {
-    INCOME, EXPENSE
+public enum Role {
+    USER,
+    ADMIN
 }
