@@ -6,5 +6,7 @@ import com.example.dataworks.financialledger.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+  User findByEmailAndId(String email, Long id);
+
     
 }
