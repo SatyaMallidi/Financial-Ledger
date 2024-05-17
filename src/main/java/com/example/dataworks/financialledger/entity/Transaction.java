@@ -36,7 +36,7 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
-    public Transaction(int transaction_id, LocalDate date, Double amount, String description, User user,
+    public Transaction(Long transaction_id, LocalDate date, Double amount, String description, User user,
             TransactionType type) {
         Transaction_id = transaction_id;
         this.date = date;
