@@ -12,7 +12,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     List<Transaction> getByDate(LocalDate date);
 
     List<Transaction> getByType(String type);
-
-    List<Transaction> TranById(Long user_id);
+    
+    List<Transaction> findByUserId(Long user_id);
     
 }

@@ -47,7 +47,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<Transaction> getTransactionsByUserId(Long user_id) {
-        return transactionRepository.TranById(user_id);
+        return transactionRepository.findByUserId(user_id);
     }
 
     @Override
