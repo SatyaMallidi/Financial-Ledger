@@ -92,8 +92,8 @@ public class UserController {
             if (user.getRole() != null) {
                 updatedUser.setRole(user.getRole());
             }
-            userService.updateUser(id, user);
-            return ResponseEntity.ok(updatedUser);
+            User newUpdatedUser = userService.updateUser(id, updatedUser);
+            return ResponseEntity.ok(newUpdatedUser);
         } else {
             return ResponseEntity.notFound().build();
         }

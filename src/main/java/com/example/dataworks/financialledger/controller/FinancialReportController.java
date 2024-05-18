@@ -134,8 +134,8 @@ public ResponseEntity<FinancialReport> partiallyUpdateFinancialReport(@PathVaria
         if(finance.getTotalIncome()!=null){
             financialReport.setTotalIncome(finance.getTotalIncome());
         }
-        financialReportService.createFinancialReport(finance);
-        return ResponseEntity.ok(financialReport);
+        FinancialReport newFinacialReport = financialReportService.createFinancialReport(finance);
+        return ResponseEntity.ok(newFinacialReport);
     }else{
         return ResponseEntity.notFound().build();
     }

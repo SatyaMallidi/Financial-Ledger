@@ -104,8 +104,8 @@ public class BalanceSheetController {
       if (balance.getLiabilities() != null) {
         balanceSheet.setLiabilities(balance.getLiabilities());
       }
-      balanceSheetService.saveBalanceSheet(balanceSheet);
-      return ResponseEntity.ok(balanceSheet);
+      BalanceSheet newBalanceSheet = balanceSheetService.saveBalanceSheet(balanceSheet);
+      return ResponseEntity.ok(newBalanceSheet);
     } else {
       return ResponseEntity.notFound().build();
     }

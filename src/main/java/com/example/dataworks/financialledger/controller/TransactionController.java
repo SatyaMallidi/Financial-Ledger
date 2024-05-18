@@ -128,8 +128,8 @@ public class TransactionController {
                 transaction.setType(Trans.getType());
             }
             
-            transactionService.updateTransaction(transaction);
-            return ResponseEntity.ok(transaction);
+            Transaction newTransaction = transactionService.updateTransaction(transaction);
+            return ResponseEntity.ok(newTransaction);
         } else {
             return ResponseEntity.notFound().build();
         }
