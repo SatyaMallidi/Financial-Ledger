@@ -1,11 +1,14 @@
 package com.example.dataworks.financialledger.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.dataworks.financialledger.entity.FinancialReport;
 import com.example.dataworks.financialledger.repository.FinancialRepository;
 
 import jakarta.transaction.Transactional;
 
+@Service
 public class FinancialReportImplService implements FinancialReportService {
      
     @Autowired
@@ -23,11 +26,7 @@ public class FinancialReportImplService implements FinancialReportService {
        return financialRepository.findById(id).get();
     }
 
-    @Override
-    @Transactional
-    public FinancialReport updateFinancialReport(FinancialReport financialReport) {
-        return financialRepository.save(financialReport);
-    }
+    
 
     @Override
     @Transactional
@@ -37,8 +36,8 @@ public class FinancialReportImplService implements FinancialReportService {
 
     @Override
     @Transactional
-    public FinancialReport getFinancialReportByUserId(Long userId) {
-        return financialRepository.findByUserId(userId);
+    public List<FinancialReport> getFinancialReportByUserId(Long user_Id) {
+        return financialRepository.findByUserId(user_Id);
     }
 
     @Override
@@ -57,6 +56,11 @@ public class FinancialReportImplService implements FinancialReportService {
     @Transactional
     public List<FinancialReport> generateQuarterlyReport(Long userId, int year, int quarter) {
         return financialRepository.findQuarterlyReports(userId, year, quarter);
+    }
+
+    @Override
+    public void deleteFinancialReportByUserId(Long user_id) {
+         financialRepository.deleteAll();
     }
     
 }

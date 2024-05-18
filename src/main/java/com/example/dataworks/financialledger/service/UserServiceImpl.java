@@ -3,10 +3,12 @@ package com.example.dataworks.financialledger.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.dataworks.financialledger.entity.User;
 import com.example.dataworks.financialledger.repository.UserRepository;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -35,15 +37,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user, Long id) {
-        return userRepository.save(user);
-    }
-
-    @Override
     public User getUserByEmailAndId(String email, Long id) {
         
         return userRepository.findByEmailAndId(email, id);
     }
+
+    @Override
+    public User updateUser(Long id, User user) {
+        
+        return userRepository.save(user);
+    }
     
     
 }
+    
+    
