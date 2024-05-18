@@ -1,11 +1,14 @@
 package com.example.dataworks.financialledger.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.dataworks.financialledger.entity.FinancialReport;
 import com.example.dataworks.financialledger.repository.FinancialRepository;
 
 import jakarta.transaction.Transactional;
 
+@Service
 public class FinancialReportImplService implements FinancialReportService {
      
     @Autowired
