@@ -18,5 +18,5 @@ public interface FinancialRepository extends JpaRepository<FinancialReport, Long
     @Query("SELECT fr FROM FinancialReport fr WHERE fr.user.id = :userId AND YEAR(fr.periodStart) = :year AND QUARTER(fr.periodStart) = :quarter")
     List<FinancialReport> findQuarterlyReports(@Param("userId") Long userId, @Param("year") int year, @Param("quarter") int quarter);
 
-    FinancialReport findByUserId(Long userId);
+    List<FinancialReport> findByUserId(Long userId);
 }

@@ -35,14 +35,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user, Long id) {
-        return userRepository.save(user);
+    public User getUserByEmailAndId(String email, Long id) {
+        
+        return userRepository.findByEmailAndId(email, id);
     }
 
     @Override
-    public User getUserByEmailAndId(String email, Long id) {
-        // TODO Auto-generated method stub
-        return userRepository.findByEmailAndId(email, id);
+    public User updateUser(Long id, User user) {
+        
+        return userRepository.save(user);
     }
     
     

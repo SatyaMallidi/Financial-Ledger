@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import lombok.Data;
 
 @Data
@@ -51,5 +52,15 @@ public class FinancialReport {
     public FinancialReport() {
     }
 
+      @PrePersist
+    protected void onCreate() {
+        if (this.periodStart == null) {
+            this.periodStart = LocalDate.now();
+        }
+        if (this.periodEnd == null) {
+            this.periodEnd = LocalDate.now();
+        }
+
+    }
 }
 
