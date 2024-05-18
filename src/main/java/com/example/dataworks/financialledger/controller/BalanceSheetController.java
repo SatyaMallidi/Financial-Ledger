@@ -6,8 +6,7 @@ import com.example.dataworks.financialledger.service.BalanceSheetService;
 
 public class BalanceSheetController {
 
-  @Autowired
-  private BalanceSheetService balanceSheetService;
+  
   
     
 }
