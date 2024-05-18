@@ -9,6 +9,8 @@ import com.example.dataworks.financialledger.repository.BalanceSheetRepository;
 
 public class BalanceSheetImplService implements BalanceSheetService{
     
+    
+
     @Autowired
     public BalanceSheetRepository balanceSheetRepository;
 
@@ -31,6 +33,12 @@ public class BalanceSheetImplService implements BalanceSheetService{
     @Override
     public BalanceSheet saveBalanceSheet(BalanceSheet balanceSheet) {
         return balanceSheetRepository.save(balanceSheet);
+    }
+
+    @Override
+    public void deleteBalanceSheetByUserId(Long user_id) {
+        balanceSheetRepository.deleteAll();
+ 
     }
     
 }

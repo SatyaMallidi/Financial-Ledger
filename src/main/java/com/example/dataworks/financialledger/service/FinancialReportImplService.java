@@ -23,11 +23,7 @@ public class FinancialReportImplService implements FinancialReportService {
        return financialRepository.findById(id).get();
     }
 
-    @Override
-    @Transactional
-    public FinancialReport updateFinancialReport(FinancialReport financialReport) {
-        return financialRepository.save(financialReport);
-    }
+    
 
     @Override
     @Transactional
@@ -37,8 +33,8 @@ public class FinancialReportImplService implements FinancialReportService {
 
     @Override
     @Transactional
-    public FinancialReport getFinancialReportByUserId(Long userId) {
-        return financialRepository.findByUserId(userId);
+    public List<FinancialReport> getFinancialReportByUserId(Long user_Id) {
+        return financialRepository.findByUserId(user_Id);
     }
 
     @Override
@@ -57,6 +53,11 @@ public class FinancialReportImplService implements FinancialReportService {
     @Transactional
     public List<FinancialReport> generateQuarterlyReport(Long userId, int year, int quarter) {
         return financialRepository.findQuarterlyReports(userId, year, quarter);
+    }
+
+    @Override
+    public void deleteFinancialReportByUserId(Long user_id) {
+         financialRepository.deleteAll();
     }
     
 }
