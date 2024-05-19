@@ -12,17 +12,16 @@ import com.example.dataworks.financialledger.entity.FinancialReport;
 @Repository
 public interface FinancialRepository extends JpaRepository<FinancialReport, Long> {
 
-    @Query("SELECT fr FROM FinancialReport fr WHERE fr.user.user_id = :user_id AND FUNCTION('YEAR', fr.periodStart) = :year AND FUNCTION('MONTH', fr.periodStart) = :month")
-    List<FinancialReport> findMonthlyReports(@Param("user_id") Long user_id, @Param("year") int year, @Param("month") int month);
+    List<FinancialReport> findByUserUserId(Long userId);
 
-    @Query("SELECT fr FROM FinancialReport fr WHERE fr.user.user_id = :user_id AND FUNCTION('YEAR', fr.periodStart) = :year")
-    List<FinancialReport> findYearlyReports(@Param("user_id") Long user_id, @Param("year") int year);
+    @Query("SELECT fr FROM FinancialReport fr WHERE fr.user.userId = :userId AND YEAR(fr.periodStart) = :year AND MONTH(fr.periodStart) = :month")
+    List<FinancialReport> findMonthlyReports(@Param("userId") Long userId, @Param("year") int year, @Param("month") int month);
 
-    @Query("SELECT fr FROM FinancialReport fr WHERE fr.user.user_id = :user_id AND FUNCTION('YEAR', fr.periodStart) = :year AND FUNCTION('QUARTER', fr.periodStart) = :quarter")
-    List<FinancialReport> findQuarterlyReports(@Param("user_id") Long user_id, @Param("year") int year, @Param("quarter") int quarter);
+    @Query("SELECT fr FROM FinancialReport fr WHERE fr.user.userId = :userId AND YEAR(fr.periodStart) = :year")
+    List<FinancialReport> findYearlyReports(@Param("userId") Long userId, @Param("year") int year);
 
-    List<FinancialReport> findByUserId(Long user_id);
+    @Query("SELECT fr FROM FinancialReport fr WHERE fr.user.userId = :userId AND YEAR(fr.periodStart) = :year AND QUARTER(fr.periodStart) = :quarter")
+    List<FinancialReport> findQuarterlyReports(@Param("userId") Long userId, @Param("year") int year, @Param("quarter") int quarter);
+
 }
 
-
-    

@@ -7,14 +7,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.example.dataworks.financialledger.entity.Transaction;
+import com.example.dataworks.financialledger.entity.TransactionType;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
-    List<Transaction> getByDate(LocalDate date);
+    List<Transaction> findByDate(LocalDate date);
 
-    List<Transaction> getByType(String type);
-    
-    List<Transaction> findByUserId(Long user_id);
-    
+    List<Transaction> findByType(TransactionType type);
+
+    List<Transaction> findByUserUserId(Long userId);
+
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.example.dataworks.financialledger.entity.User;
 import com.example.dataworks.financialledger.service.UserService;
 
@@ -25,59 +26,37 @@ public class UserController {
 
     @PostMapping("/")
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        if (user != null) {
-            userService.createuser(user);
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        User createdUser = userService.createUser(user);
+        return ResponseEntity.ok(createdUser);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long user_id) {
-        User user = userService.getUserById(user_id);
-        if (user != null) {
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping("/")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();
-        if (users != null) {
-            return ResponseEntity.ok(users);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(users);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long user_id, @RequestBody User user) {
-        User updatedUser = userService.getUserById(user_id);
-        if (updatedUser != null) {
-            userService.updateUser(user_id, user);
-            return ResponseEntity.ok(updatedUser);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+        User updatedUser = userService.updateUser(id, user);
+        return ResponseEntity.ok(updatedUser);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<User> deleteUserById(@PathVariable Long user_id) {
-        User user = userService.getUserById(user_id);
-        if (user != null) {
-            userService.deleteUser(user_id);
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<User> deleteUserById(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<User> partialUdateUser(@PathVariable Long user_id, @RequestBody User user) {
-        User updatedUser = userService.getUserById(user_id);
+    public ResponseEntity<User> partialUdateUser(@PathVariable Long id, @RequestBody User user) {
+        User updatedUser = userService.getUserById(id);
         if (updatedUser != null) {
             if (user.getUsername() != null) {
                 updatedUser.setUsername(user.getUsername());
@@ -91,11 +70,10 @@ public class UserController {
             if (user.getRole() != null) {
                 updatedUser.setRole(user.getRole());
             }
-            User newUpdatedUser = userService.updateUser(user_id, updatedUser);
+            User newUpdatedUser = userService.updateUser(id, updatedUser);
             return ResponseEntity.ok(newUpdatedUser);
         } else {
             return ResponseEntity.notFound().build();
         }
-
     }
 }

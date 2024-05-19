@@ -15,13 +15,13 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;  
 
     @Override
-    public User createuser(User user) {
+    public User createUser(User user) {
         return userRepository.save(user);
     }
 
     @Override
-    public void deleteUser(Long user_id) {
-        userRepository.deleteById(user_id);
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
     }
 
     @Override
@@ -30,22 +30,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long user_id) {
-    return userRepository.findById(user_id).get();
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId).orElse(null);
     }
 
     @Override
-    public User getUserByEmailAndId(String email, Long user_id) {
-        
-        return userRepository.findByEmailAndId(email, user_id);
+    public User getUserByEmailAndId(String email, Long userId) {
+        return userRepository.findByEmailAndUserId(email, userId);
     }
 
     @Override
-    public User updateUser(Long user_id, User user) {
-        
+    public User updateUser(Long userId, User user) {
+        // You may need to handle user not found scenario here
         return userRepository.save(user);
     }
-    
+
 }
-    
-    

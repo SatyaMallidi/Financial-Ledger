@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dataworks.financialledger.entity.Transaction;
+import com.example.dataworks.financialledger.entity.TransactionType;
 import com.example.dataworks.financialledger.service.TransactionService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,8 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
-
 @RestController
 @RequestMapping("/transactions")
 public class TransactionController {
@@ -31,109 +30,75 @@ public class TransactionController {
 
     @GetMapping("/")
     public ResponseEntity<List<Transaction>> getAll() {
-        List<Transaction> transaction = transactionService.getAllTransactions();
-        if (transaction != null) {
-            return ResponseEntity.ok(transaction);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        List<Transaction> transactions = transactionService.getAllTransactions();
+        return ResponseEntity.ok(transactions);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Transaction> getById(@PathVariable Long Transaction_id) {
-        Transaction transaction = transactionService.getTransactionById(Transaction_id);
-        if (transaction != null) {
-            return ResponseEntity.ok(transaction);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Transaction> getById(@PathVariable Long id) {
+        Transaction transaction = transactionService.getTransactionById(id);
+        return ResponseEntity.ok(transaction);
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<List<Transaction>> getByUserId(@PathVariable Long user_id) {
-        List<Transaction> transaction = transactionService.getTransactionsByUserId(user_id);
-        if (transaction != null) {
-            return ResponseEntity.ok(transaction);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<List<Transaction>> getByUserId(@PathVariable Long userId) {
+        List<Transaction> transactions = transactionService.getTransactionsByUserId(userId);
+        return ResponseEntity.ok(transactions);
     }
 
     @GetMapping("/type")
-    public ResponseEntity<List<Transaction>> getByType(@RequestParam String type) {
-        List<Transaction> transaction = transactionService.getTransactionsByType(type);
-        if (transaction != null) {
-            return ResponseEntity.ok(transaction);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<List<Transaction>> getByType(@RequestParam TransactionType type) {
+        List<Transaction> transactions = transactionService.getTransactionsByType(type);
+        return ResponseEntity.ok(transactions);
     }
 
     @GetMapping("/date")
-    public ResponseEntity<List<Transaction>> getByDate(@RequestParam @DateTimeFormat LocalDate date) {
-        List<Transaction> transaction = transactionService.getTransactionsByDate(date);
-        if (transaction != null) {
-            return ResponseEntity.ok(transaction);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<List<Transaction>> getByDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        List<Transaction> transactions = transactionService.getTransactionsByDate(date);
+        return ResponseEntity.ok(transactions);
     }
+
     @PostMapping("/")
-    public ResponseEntity<Transaction> newTransaction(@RequestBody Transaction transaction){
-        transactionService.createTransaction(transaction);
-         if (transaction != null) {
-            return ResponseEntity.ok(transaction);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Transaction> newTransaction(@RequestBody Transaction transaction) {
+        Transaction createdTransaction = transactionService.createTransaction(transaction);
+        return ResponseEntity.ok(createdTransaction);
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Transaction> deleteById(@PathVariable Long Transaction_id) {
-        Transaction transaction = transactionService.getTransactionById(Transaction_id);
-        if (transaction != null) {
-            transactionService.deleteTransaction(Transaction_id);
-            return ResponseEntity.ok(transaction);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        transactionService.deleteTransaction(id);
+        return ResponseEntity.ok().build();
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Transaction> updateTransaction(@PathVariable Long Transaction_id,@RequestBody Transaction trans){
-        Transaction transaction = transactionService.getTransactionById(Transaction_id);
-        if (transaction != null) {
-            transactionService.updateTransaction(trans);
-            return ResponseEntity.ok(transaction);
-        } else {
-            return ResponseEntity.notFound().build();
-    }
+    public ResponseEntity<Transaction> updateTransaction(@PathVariable Long id, @RequestBody Transaction transaction) {
+        Transaction updatedTransaction = transactionService.updateTransaction(transaction);
+        return ResponseEntity.ok(updatedTransaction);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Transaction> partiallyUpdateTransaction(@PathVariable Long Transaction_id, @RequestBody Transaction Trans) {
-        Transaction transaction = transactionService.getTransactionById(Transaction_id);
-        if (transaction !=null) {
-            if (Trans.getDate() != null) {
-                transaction.setDate(Trans.getDate());
+    public ResponseEntity<Transaction> partiallyUpdateTransaction(@PathVariable Long id, @RequestBody Transaction transaction) {
+        Transaction existingTransaction = transactionService.getTransactionById(id);
+        if (existingTransaction != null) {
+            if (transaction.getDate() != null) {
+                existingTransaction.setDate(transaction.getDate());
             }
-            if (Trans.getAmount() != null) {
-                transaction.setAmount(Trans.getAmount());
+            if (transaction.getAmount() != null) {
+                existingTransaction.setAmount(transaction.getAmount());
             }
-            if (Trans.getDescription() != null) {
-                transaction.setDescription(Trans.getDescription());
+            if (transaction.getDescription() != null) {
+                existingTransaction.setDescription(transaction.getDescription());
             }
-            if (Trans.getUser() != null) {
-                transaction.setUser(Trans.getUser());
+            if (transaction.getUser() != null) {
+                existingTransaction.setUser(transaction.getUser());
             }
-            if (Trans.getType() != null) {
-                transaction.setType(Trans.getType());
+            if (transaction.getType() != null) {
+                existingTransaction.setType(transaction.getType());
             }
-            
-            Transaction newTransaction = transactionService.updateTransaction(transaction);
-            return ResponseEntity.ok(newTransaction);
+            Transaction updatedTransaction = transactionService.updateTransaction(existingTransaction);
+            return ResponseEntity.ok(updatedTransaction);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
-
 }
-    
