@@ -34,8 +34,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        User user = userService.getUserById(id);
+    public ResponseEntity<User> getUserById(@PathVariable Long user_id) {
+        User user = userService.getUserById(user_id);
         if (user != null) {
             return ResponseEntity.ok(user);
         } else {
@@ -54,10 +54,10 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
-        User updatedUser = userService.getUserById(id);
+    public ResponseEntity<User> updateUser(@PathVariable Long user_id, @RequestBody User user) {
+        User updatedUser = userService.getUserById(user_id);
         if (updatedUser != null) {
-            userService.updateUser(id, user);
+            userService.updateUser(user_id, user);
             return ResponseEntity.ok(updatedUser);
         } else {
             return ResponseEntity.notFound().build();
@@ -65,10 +65,10 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<User> deleteUserById(@PathVariable Long id) {
-        User user = userService.getUserById(id);
+    public ResponseEntity<User> deleteUserById(@PathVariable Long user_id) {
+        User user = userService.getUserById(user_id);
         if (user != null) {
-            userService.deleteUser(id);
+            userService.deleteUser(user_id);
             return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.notFound().build();
@@ -76,8 +76,8 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<User> partialUdateUser(@PathVariable Long id, @RequestBody User user) {
-        User updatedUser = userService.getUserById(id);
+    public ResponseEntity<User> partialUdateUser(@PathVariable Long user_id, @RequestBody User user) {
+        User updatedUser = userService.getUserById(user_id);
         if (updatedUser != null) {
             if (user.getUsername() != null) {
                 updatedUser.setUsername(user.getUsername());
@@ -91,7 +91,7 @@ public class UserController {
             if (user.getRole() != null) {
                 updatedUser.setRole(user.getRole());
             }
-            User newUpdatedUser = userService.updateUser(id, updatedUser);
+            User newUpdatedUser = userService.updateUser(user_id, updatedUser);
             return ResponseEntity.ok(newUpdatedUser);
         } else {
             return ResponseEntity.notFound().build();

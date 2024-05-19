@@ -3,7 +3,6 @@ package com.example.dataworks.financialledger.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dataworks.financialledger.entity.BalanceSheet;
@@ -27,74 +26,51 @@ public class BalanceSheetController {
   private BalanceSheetService balanceSheetService;
 
   @PostMapping("/")
-  public ResponseEntity<BalanceSheet> newBalancesheet(@RequestBody BalanceSheet balanceSheet) {
-    balanceSheetService.saveBalanceSheet(balanceSheet);
-    if (balanceSheet != null) {
-      return ResponseEntity.ok(balanceSheet);
-    } else {
-      return ResponseEntity.notFound().build();
-    }
-  }
+  public BalanceSheet newBalanceSheet(@RequestBody BalanceSheet balanceSheet) {
+    return balanceSheetService.saveBalanceSheet(balanceSheet);
+}
+
 
   @GetMapping("/{id}")
-  public ResponseEntity<BalanceSheet> getById(@PathVariable Long id) {
+  public BalanceSheet getById(@PathVariable Long id) {
     BalanceSheet balanceSheet = balanceSheetService.getBalanceSheetById(id);
-    if (balanceSheet != null) {
-      return ResponseEntity.ok(balanceSheet);
-    } else {
-      return ResponseEntity.notFound().build();
-    }
+      return balanceSheet;
+   
   }
 
   @GetMapping("/user/{id}")
-  public ResponseEntity<List<BalanceSheet>> getByUserId(@PathVariable Long user_id) {
+  public List<BalanceSheet> getByUserId(@PathVariable Long user_id) {
     List<BalanceSheet> balanceSheet = balanceSheetService.getBalanceSheetsByUserId(user_id);
-    if (balanceSheet != null) {
-      return ResponseEntity.ok(balanceSheet);
-    } else {
-      return ResponseEntity.notFound().build();
-    }
+      return balanceSheet;
   }
+  
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<BalanceSheet> deleteById(@PathVariable Long id) {
-    BalanceSheet balanceSheet = balanceSheetService.getBalanceSheetById(id);
-    if (balanceSheet != null) {
-      balanceSheetService.deleteBalanceSheet(id);
-      return ResponseEntity.ok(balanceSheet);
-    } else {
-      return ResponseEntity.notFound().build();
-    }
+  public void  deleteById(@PathVariable Long id) {
+    balanceSheetService.deleteBalanceSheet(id);
+    
   }
 
   @DeleteMapping("/user/{id}")
-  public ResponseEntity<BalanceSheet> deleteByUserId(@PathVariable Long user_id) {
-    BalanceSheet balanceSheet = balanceSheetService.getBalanceSheetById(user_id);
-    if (balanceSheet != null) {
+  public void deleteByUserId(@PathVariable Long user_id) {
       balanceSheetService.deleteBalanceSheetByUserId(user_id);
-      return ResponseEntity.ok(balanceSheet);
-    } else {
-      return ResponseEntity.notFound().build();
-    }
+      
+    
 
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<BalanceSheet> updateBalanceSheet(@PathVariable Long id, @RequestBody BalanceSheet balance) {
+  public BalanceSheet updateBalanceSheet(@PathVariable Long id, @RequestBody BalanceSheet balance) {
     BalanceSheet balanceSheet = balanceSheetService.getBalanceSheetById(id);
-    if (balanceSheet != null) {
       balanceSheetService.saveBalanceSheet(balanceSheet);
-      return ResponseEntity.ok(balanceSheet);
-    } else {
-      return ResponseEntity.notFound().build();
-    }
+      return balanceSheet;
+      
+    
   }
 
   @PatchMapping("{id}")
-  public ResponseEntity<BalanceSheet> partiallyUpdateBalanceSheet(@PathVariable Long id,
-      @RequestBody BalanceSheet balance) {
+  public BalanceSheet partiallyUpdateBalanceSheet(@PathVariable Long id,@RequestBody BalanceSheet balance) {
     BalanceSheet balanceSheet = balanceSheetService.getBalanceSheetById(id);
-    if (balanceSheet != null) {
       if (balance.getAssets() != null) {
         balanceSheet.setAssets(balance.getAssets());
       }
@@ -104,11 +80,7 @@ public class BalanceSheetController {
       if (balance.getLiabilities() != null) {
         balanceSheet.setLiabilities(balance.getLiabilities());
       }
-      BalanceSheet newBalanceSheet = balanceSheetService.saveBalanceSheet(balanceSheet);
-      return ResponseEntity.ok(newBalanceSheet);
-    } else {
-      return ResponseEntity.notFound().build();
+      BalanceSheet newBalanceSheet= balanceSheetService.saveBalanceSheet(balanceSheet);
+      return newBalanceSheet;
     }
   }
-
-}

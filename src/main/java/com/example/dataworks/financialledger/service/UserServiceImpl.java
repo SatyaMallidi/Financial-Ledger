@@ -20,8 +20,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public void deleteUser(Long user_id) {
+        userRepository.deleteById(user_id);
     }
 
     @Override
@@ -30,22 +30,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long id) {
-    return userRepository.findById(id).get();
+    public User getUserById(Long user_id) {
+    return userRepository.findById(user_id).get();
     }
 
     @Override
-    public User getUserByEmailAndId(String email, Long id) {
+    public User getUserByEmailAndId(String email, Long user_id) {
         
-        return userRepository.findByEmailAndId(email, id);
+        return userRepository.findByEmailAndId(email, user_id);
     }
 
     @Override
-    public User updateUser(Long id, User user) {
+    public User updateUser(Long user_id, User user) {
         
         return userRepository.save(user);
     }
-    
     
 }
     

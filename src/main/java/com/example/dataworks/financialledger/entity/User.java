@@ -24,8 +24,8 @@ import lombok.Setter;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "user_id")
+    private Long user_id;
     
     @Column(name = "username",nullable = false,unique = true)
     private String username;
@@ -38,10 +38,5 @@ public class User {
     
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    public User orElseThrow(Object object) {
-      // TODO Auto-generated method stub
-      throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
-    }
 
 }

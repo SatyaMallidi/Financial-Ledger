@@ -9,10 +9,10 @@ public interface UserService {
 
   
     public User createuser(User user);
-    public void deleteUser(Long id);
-    public User getUserById(Long id);
-    public User getUserByEmailAndId(String email, Long id);
+    public void deleteUser(Long user_id);
+    public User getUserById(Long user_id);
+    public User getUserByEmailAndId(String email, Long user_id);
     public List<User> getAllUsers();
-    public User updateUser(Long id, User user);    
+    public User updateUser(Long user_id, User user);    
     
 }

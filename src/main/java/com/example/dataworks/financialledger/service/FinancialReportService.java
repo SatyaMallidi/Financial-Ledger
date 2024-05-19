@@ -14,11 +14,11 @@ public interface FinancialReportService {
     
     public void deleteFinancialReportByUserId(Long user_id);
 
-    public List<FinancialReport> getFinancialReportByUserId(Long userId);
+    public List<FinancialReport> getFinancialReportByUserId(Long user_id);
 
-    public List<FinancialReport> generateMonthlyReport(Long userId, int year, int month);
+    public List<FinancialReport> generateMonthlyReport(Long user_id, int year, int month);
 
-    public List<FinancialReport> generateYearlyReport(Long userId, int year);
+    public List<FinancialReport> generateYearlyReport(Long user_id, int year);
 
-    public List<FinancialReport> generateQuarterlyReport(Long userId, int year, int quarter);
+    public List<FinancialReport> generateQuarterlyReport(Long user_id, int year, int quarter);
 }
