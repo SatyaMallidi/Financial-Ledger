@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.dataworks.financialledger.Exception.UserExceptionNotFound;
 import com.example.dataworks.financialledger.entity.User;
 import com.example.dataworks.financialledger.repository.UserRepository;
 
@@ -16,12 +17,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-        return userRepository.save(user);
+        User newuser=userRepository.save(user);
+        if(newuser==null){
+            throw new UserExceptionNotFound("The user is not saved");
+        }
+        return newuser;
     }
 
     @Override
     public void deleteUser(Long userId) {
-        userRepository.deleteById(userId);
+        userRepository.findById(userId)
+        .orElseThrow(()->new UserExceptionNotFound("User is not found"));
+        userRepository.deleteById(userId)
     }
 
     @Override

@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dataworks.financialledger.entity.Transaction;
@@ -29,76 +28,71 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Transaction>> getAll() {
+    public List<Transaction> getAll() {
         List<Transaction> transactions = transactionService.getAllTransactions();
-        return ResponseEntity.ok(transactions);
+        return transactions;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Transaction> getById(@PathVariable Long id) {
-        Transaction transaction = transactionService.getTransactionById(id);
-        return ResponseEntity.ok(transaction);
+    @GetMapping("/{transactionId}")
+    public Transaction getById(@PathVariable Long transactionId) {
+        Transaction transaction = transactionService.getTransactionById(transactionId);
+        return transaction;
     }
 
-    @GetMapping("/user/{id}")
-    public ResponseEntity<List<Transaction>> getByUserId(@PathVariable Long userId) {
+    @GetMapping("/user/{userId}")
+    public List<Transaction> getByUserId(@PathVariable Long userId) {
         List<Transaction> transactions = transactionService.getTransactionsByUserId(userId);
-        return ResponseEntity.ok(transactions);
+        return transactions;
     }
 
     @GetMapping("/type")
-    public ResponseEntity<List<Transaction>> getByType(@RequestParam TransactionType type) {
+    public List<Transaction> getByType(@RequestParam TransactionType type) {
         List<Transaction> transactions = transactionService.getTransactionsByType(type);
-        return ResponseEntity.ok(transactions);
+        return transactions;
     }
 
     @GetMapping("/date")
-    public ResponseEntity<List<Transaction>> getByDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    public List<Transaction> getByDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         List<Transaction> transactions = transactionService.getTransactionsByDate(date);
-        return ResponseEntity.ok(transactions);
+        return transactions;
     }
 
     @PostMapping("/")
-    public ResponseEntity<Transaction> newTransaction(@RequestBody Transaction transaction) {
+    public Transaction newTransaction(@RequestBody Transaction transaction) {
         Transaction createdTransaction = transactionService.createTransaction(transaction);
-        return ResponseEntity.ok(createdTransaction);
+        return createdTransaction;
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        transactionService.deleteTransaction(id);
-        return ResponseEntity.ok().build();
+    @DeleteMapping("/{transactionId}")
+    public void deleteById(@PathVariable Long transactionId) {
+        transactionService.deleteTransaction(transactionId);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Transaction> updateTransaction(@PathVariable Long id, @RequestBody Transaction transaction) {
-        Transaction updatedTransaction = transactionService.updateTransaction(transaction);
-        return ResponseEntity.ok(updatedTransaction);
+    @PutMapping("/{transactionId}")
+    public Transaction updateTransaction(@PathVariable Long transactionId, @RequestBody Transaction transaction) {
+        Transaction updatedTransaction = transactionService.createTransaction(transaction);
+        return updatedTransaction;
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Transaction> partiallyUpdateTransaction(@PathVariable Long id, @RequestBody Transaction transaction) {
-        Transaction existingTransaction = transactionService.getTransactionById(id);
-        if (existingTransaction != null) {
-            if (transaction.getDate() != null) {
-                existingTransaction.setDate(transaction.getDate());
-            }
-            if (transaction.getAmount() != null) {
-                existingTransaction.setAmount(transaction.getAmount());
-            }
-            if (transaction.getDescription() != null) {
-                existingTransaction.setDescription(transaction.getDescription());
-            }
-            if (transaction.getUser() != null) {
-                existingTransaction.setUser(transaction.getUser());
-            }
-            if (transaction.getType() != null) {
-                existingTransaction.setType(transaction.getType());
-            }
-            Transaction updatedTransaction = transactionService.updateTransaction(existingTransaction);
-            return ResponseEntity.ok(updatedTransaction);
-        } else {
-            return ResponseEntity.notFound().build();
+    @PatchMapping("/{transactionId}")
+    public Transaction partiallyUpdateTransaction(@PathVariable Long transactionId, @RequestBody Transaction transaction) {
+        Transaction existingTransaction = transactionService.getTransactionById(transactionId);
+        if (transaction.getDate() != null) {
+            existingTransaction.setDate(transaction.getDate());
         }
+        if (transaction.getAmount() != null) {
+            existingTransaction.setAmount(transaction.getAmount());
+        }
+        if (transaction.getDescription() != null) {
+            existingTransaction.setDescription(transaction.getDescription());
+        }
+        if (transaction.getUser() != null) {
+            existingTransaction.setUser(transaction.getUser());
+        }
+        if (transaction.getType() != null) {
+            existingTransaction.setType(transaction.getType());
+        }
+        return transactionService.createTransaction(existingTransaction);
     }
+      
 }
