@@ -30,9 +30,9 @@ public class UserController {
         return ResponseEntity.ok(createdUser);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        User user = userService.getUserById(id);
+    @GetMapping("/{userId}")
+    public ResponseEntity<User> getUserById(@PathVariable Long userId) {
+        User user = userService.getUserById(userId);
         return ResponseEntity.ok(user);
     }
 
@@ -43,20 +43,20 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
-        User updatedUser = userService.updateUser(id, user);
+    public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody User user) {
+        User updatedUser = userService.updateUser(userId, user);
         return ResponseEntity.ok(updatedUser);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<User> deleteUserById(@PathVariable Long id) {
-        userService.deleteUser(id);
+    public ResponseEntity<User> deleteUserById(@PathVariable Long userId) {
+        userService.deleteUser(userId);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<User> partialUdateUser(@PathVariable Long id, @RequestBody User user) {
-        User updatedUser = userService.getUserById(id);
+    public ResponseEntity<User> partialUdateUser(@PathVariable Long userId, @RequestBody User user) {
+        User updatedUser = userService.getUserById(userId);
         if (updatedUser != null) {
             if (user.getUsername() != null) {
                 updatedUser.setUsername(user.getUsername());
@@ -70,7 +70,7 @@ public class UserController {
             if (user.getRole() != null) {
                 updatedUser.setRole(user.getRole());
             }
-            User newUpdatedUser = userService.updateUser(id, updatedUser);
+            User newUpdatedUser = userService.updateUser(userId, updatedUser);
             return ResponseEntity.ok(newUpdatedUser);
         } else {
             return ResponseEntity.notFound().build();

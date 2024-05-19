@@ -34,7 +34,7 @@ public class BalanceSheetImplService implements BalanceSheetService {
     public List<BalanceSheet> getBalanceSheetsByUserId(Long userId) {
     List<BalanceSheet> balanceSheets = balanceSheetRepository.findByUserUserId(userId);
     if (balanceSheets.isEmpty()) {
-        throw new com.example.dataworks.financialledger.Exception.BalanceSheetExceptionNotFound("BalanceSheets not found for user with id: " + userId);
+        throw new BalanceSheetExceptionNotFound("BalanceSheets not found for user with id: " + userId);
     }
     return balanceSheets;
 }
