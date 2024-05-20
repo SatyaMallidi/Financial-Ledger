@@ -9,7 +9,7 @@ public interface BalanceSheetService {
 
    public BalanceSheet getBalanceSheetById(Long id);
 
-   public List<BalanceSheet> getBalanceSheetsByUserId(Long user_id);
+   public List<BalanceSheet> getBalanceSheetsByUserId(Long userId);
 
    public void deleteBalanceSheet(Long id);
 
