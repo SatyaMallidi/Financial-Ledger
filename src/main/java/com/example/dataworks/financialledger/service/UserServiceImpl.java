@@ -1,6 +1,7 @@
 package com.example.dataworks.financialledger.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,12 +14,12 @@ import com.example.dataworks.financialledger.repository.UserRepository;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRepository userRepository;  
+    private UserRepository userRepository;
 
     @Override
     public User createUser(User user) {
-        User newuser=userRepository.save(user);
-        if(newuser==null){
+        User newuser = userRepository.save(user);
+        if (newuser == null) {
             throw new UserExceptionNotFound("The user is not saved");
         }
         return newuser;
@@ -27,18 +28,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long userId) {
         userRepository.findById(userId)
-        .orElseThrow(()->new UserExceptionNotFound("User is not found"));
-        userRepository.deleteById(userId)
+                .orElseThrow(() -> new UserExceptionNotFound("User is not found"));
+        userRepository.deleteById(userId);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return userRepository.findAll();  
+        List<User> users = userRepository.findAll();
+        if (users == null) {
+            throw new UserExceptionNotFound("The user is not found");
+        }
+        return users;
     }
 
     @Override
     public User getUserById(Long userId) {
-        return userRepository.findById(userId).orElse(null);
+        return userRepository.findById(userId).orElseThrow(() -> new UserExceptionNotFound("The userId is not found"));
     }
 
     @Override
@@ -48,7 +53,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(Long userId, User user) {
-        // You may need to handle user not found scenario here
+        Optional<User> existinguser = userRepository.findById(userId);
+        if (existinguser == null) {
+            throw new UserExceptionNotFound("The user is not found");
+        }
         return userRepository.save(user);
     }
 

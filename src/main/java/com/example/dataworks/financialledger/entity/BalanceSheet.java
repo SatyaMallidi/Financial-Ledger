@@ -15,7 +15,7 @@ public class BalanceSheet {
     @Column(name = "balanceId")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -23,7 +23,7 @@ public class BalanceSheet {
     @Column(nullable = false)
     private LocalDate date;
 
-    @Column(nullable = false)
+    @Column(nullable = false)   
     private Double assets;
 
     @Column(nullable = false)
@@ -31,5 +31,12 @@ public class BalanceSheet {
 
     @Column(nullable = false)
     private Double equity;
+
+    @PrePersist
+    private void setDateIfNull() {
+        if (date == null) {
+            date = LocalDate.now();
+        }
+    }
 
 }

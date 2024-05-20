@@ -35,7 +35,7 @@ public class FinancialReportController {
         return financialReport;
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/user/{userId}")
     public List<FinancialReport> getFinancialReportByUserId(@PathVariable Long userId) {
         List<FinancialReport> financialReports = financialReportService.getFinancialReportByUserId(userId);
         return financialReports;
@@ -46,7 +46,7 @@ public class FinancialReportController {
         financialReportService.deleteFinancialReport(id);
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/user/{userId}")
     public void deleteFinancialReportByUserId(@PathVariable Long userId) {
         financialReportService.deleteFinancialReportByUserId(userId);
     }
@@ -70,11 +70,12 @@ public class FinancialReportController {
 
     @PutMapping("/{id}")
     public FinancialReport updateFinancialReport(@PathVariable Long id, @RequestBody FinancialReport financialReport) {
-        return financialReportService.createFinancialReport(financialReport);
+        return financialReportService.updFinancialReport(id, financialReport);
     }
 
     @PatchMapping("/{id}")
-    public FinancialReport partiallyUpdateFinancialReport(@PathVariable Long id, @RequestBody FinancialReport financialReport) {
+    public FinancialReport partiallyUpdateFinancialReport(@PathVariable Long id,
+            @RequestBody FinancialReport financialReport) {
         FinancialReport existingReport = financialReportService.getFinancialReport(id);
         if (financialReport.getNetProfit() != null) {
             existingReport.setNetProfit(financialReport.getNetProfit());
@@ -85,6 +86,6 @@ public class FinancialReportController {
         if (financialReport.getTotalIncome() != null) {
             existingReport.setTotalIncome(financialReport.getTotalIncome());
         }
-        return financialReportService.createFinancialReport(existingReport);
+        return financialReportService.updFinancialReport(id, existingReport);
     }
 }

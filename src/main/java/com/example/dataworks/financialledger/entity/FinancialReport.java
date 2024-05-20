@@ -9,14 +9,14 @@ import lombok.Data;
 @Data
 @Entity
 public class FinancialReport {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "financialId")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(nullable = false)
@@ -33,5 +33,18 @@ public class FinancialReport {
 
     @Column(nullable = false)
     private Double totalExpenses;
+  
+    @PrePersist
+    private void setDefaultDatesIfNeeded() {
+        LocalDate now = LocalDate.now();
+        if (periodStart == null) {
+            periodStart = now;
+        }
+        if (periodEnd == null) {
+            periodEnd = now;
+        }
+    }
 
 }
+
+

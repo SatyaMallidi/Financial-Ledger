@@ -35,7 +35,7 @@ public class BalanceSheetController {
         return balanceSheet;
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/user/{userId}")
     public List<BalanceSheet> getByUserId(@PathVariable Long userId) {
         List<BalanceSheet> balanceSheets = balanceSheetService.getBalanceSheetsByUserId(userId);
         return balanceSheets;
@@ -46,33 +46,30 @@ public class BalanceSheetController {
         balanceSheetService.deleteBalanceSheet(id);
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/user/{userId}")
     public void deleteByUserId(@PathVariable Long userId) {
         balanceSheetService.deleteBalanceSheetByUserId(userId);
     }
 
     @PutMapping("/{id}")
     public BalanceSheet updateBalanceSheet(@PathVariable Long id, @RequestBody BalanceSheet balanceSheet) {
-        return balanceSheetService.saveBalanceSheet(balanceSheet);
+        return balanceSheetService.updateBlanaceSheet(id, balanceSheet);
     }
 
     @PatchMapping("/{id}")
     public BalanceSheet partiallyUpdateBalanceSheet(@PathVariable Long id, @RequestBody BalanceSheet balanceSheet) {
         BalanceSheet existingBalanceSheet = balanceSheetService.getBalanceSheetById(id);
-        if (existingBalanceSheet != null) {
-            if (balanceSheet.getAssets() != null) {
-                existingBalanceSheet.setAssets(balanceSheet.getAssets());
-            }
-            if (balanceSheet.getEquity() != null) {
-                existingBalanceSheet.setEquity(balanceSheet.getEquity());
-            }
-            if (balanceSheet.getLiabilities() != null) {
-                existingBalanceSheet.setLiabilities(balanceSheet.getLiabilities());
-            }
-            BalanceSheet updatedBalanceSheet = balanceSheetService.saveBalanceSheet(existingBalanceSheet);
-            return updatedBalanceSheet;
-        } else {
-            return null; 
+        if (balanceSheet.getAssets() != null) {
+            existingBalanceSheet.setAssets(balanceSheet.getAssets());
         }
+        if (balanceSheet.getEquity() != null) {
+            existingBalanceSheet.setEquity(balanceSheet.getEquity());
+        }
+        if (balanceSheet.getLiabilities() != null) {
+            existingBalanceSheet.setLiabilities(balanceSheet.getLiabilities());
+        }
+        BalanceSheet updatedBalanceSheet = balanceSheetService.updateBlanaceSheet(id, existingBalanceSheet);
+        return updatedBalanceSheet;
+
     }
 }

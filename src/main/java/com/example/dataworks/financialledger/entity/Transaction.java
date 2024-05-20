@@ -31,4 +31,12 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
+    @PrePersist
+    private void setDateIfNull() {
+        if (date == null) {
+            date = LocalDate.now();
+        }
+    }
+
+
 }

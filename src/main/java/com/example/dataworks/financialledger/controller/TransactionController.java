@@ -70,12 +70,13 @@ public class TransactionController {
 
     @PutMapping("/{transactionId}")
     public Transaction updateTransaction(@PathVariable Long transactionId, @RequestBody Transaction transaction) {
-        Transaction updatedTransaction = transactionService.createTransaction(transaction);
+        Transaction updatedTransaction = transactionService.updateTransaction(transactionId, transaction);
         return updatedTransaction;
     }
 
     @PatchMapping("/{transactionId}")
-    public Transaction partiallyUpdateTransaction(@PathVariable Long transactionId, @RequestBody Transaction transaction) {
+    public Transaction partiallyUpdateTransaction(@PathVariable Long transactionId,
+            @RequestBody Transaction transaction) {
         Transaction existingTransaction = transactionService.getTransactionById(transactionId);
         if (transaction.getDate() != null) {
             existingTransaction.setDate(transaction.getDate());
@@ -92,7 +93,7 @@ public class TransactionController {
         if (transaction.getType() != null) {
             existingTransaction.setType(transaction.getType());
         }
-        return transactionService.createTransaction(existingTransaction);
+        return transactionService.updateTransaction(transactionId, existingTransaction);
     }
-      
+
 }
