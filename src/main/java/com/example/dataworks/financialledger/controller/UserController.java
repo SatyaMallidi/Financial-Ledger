@@ -3,7 +3,6 @@ package com.example.dataworks.financialledger.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.example.dataworks.financialledger.entity.User;
 import com.example.dataworks.financialledger.service.UserService;
 
@@ -22,80 +22,56 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @PostMapping("/")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        if (user != null) {
-            userService.createuser(user);
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        User user = userService.getUserById(id);
-        if (user != null) {
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @PostMapping("/")
+    public User createUser(@RequestBody User user) {
+        User createdUser = userService.createUser(user);
+        return createdUser;
+    }
+
+    @GetMapping("/{userId}")
+    public User getUserById(@PathVariable Long userId) {
+        User user = userService.getUserById(userId);
+        return user;
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public List<User> getAllUsers() {
         List<User> users = userService.getAllUsers();
-        if (users != null) {
-            return ResponseEntity.ok(users);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return users;
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
-        User updatedUser = userService.getUserById(id);
-        if (updatedUser != null) {
-            userService.updateUser(id, user);
-            return ResponseEntity.ok(updatedUser);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @PutMapping("/{userId}")
+    public User updateUser(@PathVariable Long userId, @RequestBody User user) {
+        User updatedUser = userService.updateUser(userId, user);
+        return updatedUser;
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<User> deleteUserById(@PathVariable Long id) {
-        User user = userService.getUserById(id);
-        if (user != null) {
-            userService.deleteUser(id);
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @DeleteMapping("/{userId}")
+    public void deleteUserById(@PathVariable Long userId) {
+        userService.deleteUser(userId);
+
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<User> partialUdateUser(@PathVariable Long id, @RequestBody User user) {
-        User updatedUser = userService.getUserById(id);
-        if (updatedUser != null) {
-            if (user.getUsername() != null) {
-                updatedUser.setUsername(user.getUsername());
-            }
-            if (user.getPassword() != null) {
-                updatedUser.setPassword(user.getPassword());
-            }
-            if (user.getEmail() != null) {
-                updatedUser.setEmail(user.getEmail());
-            }
-            if (user.getRole() != null) {
-                updatedUser.setRole(user.getRole());
-            }
-            User newUpdatedUser = userService.updateUser(id, updatedUser);
-            return ResponseEntity.ok(newUpdatedUser);
-        } else {
-            return ResponseEntity.notFound().build();
+    @PatchMapping("/{userId}")
+    public User partialUdateUser(@PathVariable Long userId, @RequestBody User user) {
+        User updatedUser = userService.getUserById(userId);
+        if (user.getUsername() != null) {
+            updatedUser.setUsername(user.getUsername());
         }
+        if (user.getPassword() != null) {
+            updatedUser.setPassword(user.getPassword());
+        }
+        if (user.getEmail() != null) {
+            updatedUser.setEmail(user.getEmail());
+        }
+        if (user.getRole() != null) {
+            updatedUser.setRole(user.getRole());
+        }
+        return userService.createUser(updatedUser);
 
     }
 }

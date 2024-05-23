@@ -6,19 +6,22 @@ import com.example.dataworks.financialledger.entity.FinancialReport;
 
 public interface FinancialReportService {
 
-    public FinancialReport createFinancialReport(FinancialReport financialReport);
+    FinancialReport createFinancialReport(FinancialReport financialReport);
 
-    public FinancialReport getFinancialReport(Long id);
+    FinancialReport updFinancialReport(Long id, FinancialReport financialReport);
 
-    public void deleteFinancialReport(Long id);
-    
-    public void deleteFinancialReportByUserId(Long user_id);
+    FinancialReport getFinancialReport(Long id);
 
-    public List<FinancialReport> getFinancialReportByUserId(Long userId);
+    void deleteFinancialReport(Long id);
 
-    public List<FinancialReport> generateMonthlyReport(Long userId, int year, int month);
+    void deleteFinancialReportByUserId(Long userId);
 
-    public List<FinancialReport> generateYearlyReport(Long userId, int year);
+    List<FinancialReport> getFinancialReportByUserId(Long userId);
 
-    public List<FinancialReport> generateQuarterlyReport(Long userId, int year, int quarter);
+    List<FinancialReport> generateMonthlyReport(Long userId, int year, int month);
+
+    List<FinancialReport> generateYearlyReport(Long userId, int year);
+
+    List<FinancialReport> generateQuarterlyReport(Long userId, int year, int quarter);
+
 }

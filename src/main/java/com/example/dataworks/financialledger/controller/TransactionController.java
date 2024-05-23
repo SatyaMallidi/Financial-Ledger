@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dataworks.financialledger.entity.Transaction;
+import com.example.dataworks.financialledger.entity.TransactionType;
 import com.example.dataworks.financialledger.service.TransactionService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,120 +20,83 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
-
 @RestController
 @RequestMapping("/transactions")
 public class TransactionController {
 
     @Autowired
     private TransactionService transactionService;
+    public TransactionController(TransactionService transactionService) {
+        this.transactionService = transactionService;
+    }
 
     @GetMapping("/")
-    public ResponseEntity<List<Transaction>> getAll() {
-        List<Transaction> transaction = transactionService.getAllTransactions();
-        if (transaction != null) {
-            return ResponseEntity.ok(transaction);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public List<Transaction> getAll() {
+        List<Transaction> transactions = transactionService.getAllTransactions();
+        return transactions;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Transaction> getById(@PathVariable Long Transaction_id) {
-        Transaction transaction = transactionService.getTransactionById(Transaction_id);
-        if (transaction != null) {
-            return ResponseEntity.ok(transaction);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/{transactionId}")
+    public Transaction getById(@PathVariable Long transactionId) {
+        Transaction transaction = transactionService.getTransactionById(transactionId);
+        return transaction;
     }
 
-    @GetMapping("/user/{id}")
-    public ResponseEntity<List<Transaction>> getByUserId(@PathVariable Long user_id) {
-        List<Transaction> transaction = transactionService.getTransactionsByUserId(user_id);
-        if (transaction != null) {
-            return ResponseEntity.ok(transaction);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/user/{userId}")
+    public List<Transaction> getByUserId(@PathVariable Long userId) {
+        List<Transaction> transactions = transactionService.getTransactionsByUserId(userId);
+        return transactions;
     }
 
     @GetMapping("/type")
-    public ResponseEntity<List<Transaction>> getByType(@RequestParam String type) {
-        List<Transaction> transaction = transactionService.getTransactionsByType(type);
-        if (transaction != null) {
-            return ResponseEntity.ok(transaction);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public List<Transaction> getByType(@RequestParam TransactionType type) {
+        List<Transaction> transactions = transactionService.getTransactionsByType(type);
+        return transactions;
     }
 
     @GetMapping("/date")
-    public ResponseEntity<List<Transaction>> getByDate(@RequestParam @DateTimeFormat LocalDate date) {
-        List<Transaction> transaction = transactionService.getTransactionsByDate(date);
-        if (transaction != null) {
-            return ResponseEntity.ok(transaction);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-    @PostMapping("/")
-    public ResponseEntity<Transaction> newTransaction(@RequestBody Transaction transaction){
-        transactionService.createTransaction(transaction);
-         if (transaction != null) {
-            return ResponseEntity.ok(transaction);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Transaction> deleteById(@PathVariable Long Transaction_id) {
-        Transaction transaction = transactionService.getTransactionById(Transaction_id);
-        if (transaction != null) {
-            transactionService.deleteTransaction(Transaction_id);
-            return ResponseEntity.ok(transaction);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-    @PutMapping("/{id}")
-    public ResponseEntity<Transaction> updateTransaction(@PathVariable Long Transaction_id,@RequestBody Transaction trans){
-        Transaction transaction = transactionService.getTransactionById(Transaction_id);
-        if (transaction != null) {
-            transactionService.updateTransaction(trans);
-            return ResponseEntity.ok(transaction);
-        } else {
-            return ResponseEntity.notFound().build();
-    }
+    public List<Transaction> getByDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        List<Transaction> transactions = transactionService.getTransactionsByDate(date);
+        return transactions;
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Transaction> partiallyUpdateTransaction(@PathVariable Long Transaction_id, @RequestBody Transaction Trans) {
-        Transaction transaction = transactionService.getTransactionById(Transaction_id);
-        if (transaction !=null) {
-            if (Trans.getDate() != null) {
-                transaction.setDate(Trans.getDate());
-            }
-            if (Trans.getAmount() != null) {
-                transaction.setAmount(Trans.getAmount());
-            }
-            if (Trans.getDescription() != null) {
-                transaction.setDescription(Trans.getDescription());
-            }
-            if (Trans.getUser() != null) {
-                transaction.setUser(Trans.getUser());
-            }
-            if (Trans.getType() != null) {
-                transaction.setType(Trans.getType());
-            }
-            
-            Transaction newTransaction = transactionService.updateTransaction(transaction);
-            return ResponseEntity.ok(newTransaction);
-        } else {
-            return ResponseEntity.notFound().build();
+    @PostMapping("/")
+    public Transaction newTransaction(@RequestBody Transaction transaction) {
+        Transaction createdTransaction = transactionService.createTransaction(transaction);
+        return createdTransaction;
+    }
+
+    @DeleteMapping("/{transactionId}")
+    public void deleteById(@PathVariable Long transactionId) {
+        transactionService.deleteTransaction(transactionId);
+    }
+
+    @PutMapping("/{transactionId}")
+    public Transaction updateTransaction(@PathVariable Long transactionId, @RequestBody Transaction transaction) {
+        Transaction updatedTransaction = transactionService.updateTransaction(transactionId, transaction);
+        return updatedTransaction;
+    }
+
+    @PatchMapping("/{transactionId}")
+    public Transaction partiallyUpdateTransaction(@PathVariable Long transactionId,
+            @RequestBody Transaction transaction) {
+        Transaction existingTransaction = transactionService.getTransactionById(transactionId);
+        if (transaction.getDate() != null) {
+            existingTransaction.setDate(transaction.getDate());
         }
+        if (transaction.getAmount() != null) {
+            existingTransaction.setAmount(transaction.getAmount());
+        }
+        if (transaction.getDescription() != null) {
+            existingTransaction.setDescription(transaction.getDescription());
+        }
+        if (transaction.getUser() != null) {
+            existingTransaction.setUser(transaction.getUser());
+        }
+        if (transaction.getType() != null) {
+            existingTransaction.setType(transaction.getType());
+        }
+        return transactionService.updateTransaction(transactionId, existingTransaction);
     }
 
 }
-    
