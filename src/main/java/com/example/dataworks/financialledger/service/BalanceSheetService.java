@@ -13,7 +13,7 @@ public interface BalanceSheetService {
 
    public void deleteBalanceSheet(Long id);
 
-   public void deleteBalanceSheetByUserId(Long user_id);
+   public void deleteBalanceSheetByUserId(Long userId);
 
    public BalanceSheet updateBlanaceSheet(Long id, BalanceSheet balanceSheet);
 }
