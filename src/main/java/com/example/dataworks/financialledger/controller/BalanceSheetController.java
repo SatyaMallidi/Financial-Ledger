@@ -23,6 +23,9 @@ public class BalanceSheetController {
 
     @Autowired
     private BalanceSheetService balanceSheetService;
+    public BalanceSheetController(BalanceSheetService balanceSheetService) {
+        this.balanceSheetService = balanceSheetService;
+    }
 
     @PostMapping("/")
     public BalanceSheet newBalanceSheet(@RequestBody BalanceSheet balanceSheet) {

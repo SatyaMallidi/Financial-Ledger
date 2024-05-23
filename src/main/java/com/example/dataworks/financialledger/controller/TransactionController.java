@@ -26,6 +26,9 @@ public class TransactionController {
 
     @Autowired
     private TransactionService transactionService;
+    public TransactionController(TransactionService transactionService) {
+        this.transactionService = transactionService;
+    }
 
     @GetMapping("/")
     public List<Transaction> getAll() {

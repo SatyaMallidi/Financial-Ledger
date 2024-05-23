@@ -23,6 +23,9 @@ public class FinancialReportController {
 
     @Autowired
     public FinancialReportService financialReportService;
+    public FinancialReportController(FinancialReportService financialReportService) {
+        this.financialReportService = financialReportService;
+    }
 
     @PostMapping("/")
     public FinancialReport newFinancialReport(@RequestBody FinancialReport financialReport) {
