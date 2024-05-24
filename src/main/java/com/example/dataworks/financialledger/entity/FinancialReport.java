@@ -3,17 +3,23 @@ package com.example.dataworks.financialledger.entity;
 import java.time.LocalDate;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import lombok.Data;
 
-@Data
+@Getter
+@Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class FinancialReport {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "financialId")
-    private Long id;
+    private Long financialId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

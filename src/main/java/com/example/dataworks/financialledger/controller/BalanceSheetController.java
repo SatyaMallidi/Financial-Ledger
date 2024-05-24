@@ -32,9 +32,9 @@ public class BalanceSheetController {
         return balanceSheetService.saveBalanceSheet(balanceSheet);
     }
 
-    @GetMapping("/{id}")
-    public BalanceSheet getById(@PathVariable Long id) {
-        BalanceSheet balanceSheet = balanceSheetService.getBalanceSheetById(id);
+    @GetMapping("/{balanceId}")
+    public BalanceSheet getById(@PathVariable Long balanceId) {
+        BalanceSheet balanceSheet = balanceSheetService.getBalanceSheetById(balanceId);
         return balanceSheet;
     }
 
@@ -44,9 +44,9 @@ public class BalanceSheetController {
         return balanceSheets;
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
-        balanceSheetService.deleteBalanceSheet(id);
+    @DeleteMapping("/{balanceId}")
+    public void deleteById(@PathVariable Long balanceId) {
+        balanceSheetService.deleteBalanceSheet(balanceId);
     }
 
     @DeleteMapping("/user/{userId}")
@@ -54,14 +54,14 @@ public class BalanceSheetController {
         balanceSheetService.deleteBalanceSheetByUserId(userId);
     }
 
-    @PutMapping("/{id}")
-    public BalanceSheet updateBalanceSheet(@PathVariable Long id, @RequestBody BalanceSheet balanceSheet) {
-        return balanceSheetService.updateBlanaceSheet(id, balanceSheet);
+    @PutMapping("/{balanceId}")
+    public BalanceSheet updateBalanceSheet(@PathVariable Long balanceId, @RequestBody BalanceSheet balanceSheet) {
+        return balanceSheetService.updateBlanaceSheet(balanceId, balanceSheet);
     }
 
-    @PatchMapping("/{id}")
-    public BalanceSheet partiallyUpdateBalanceSheet(@PathVariable Long id, @RequestBody BalanceSheet balanceSheet) {
-        BalanceSheet existingBalanceSheet = balanceSheetService.getBalanceSheetById(id);
+    @PatchMapping("/{balanceId}")
+    public BalanceSheet partiallyUpdateBalanceSheet(@PathVariable Long balanceId, @RequestBody BalanceSheet balanceSheet) {
+        BalanceSheet existingBalanceSheet = balanceSheetService.getBalanceSheetById(balanceId);
         if (balanceSheet.getAssets() != null) {
             existingBalanceSheet.setAssets(balanceSheet.getAssets());
         }
@@ -71,7 +71,7 @@ public class BalanceSheetController {
         if (balanceSheet.getLiabilities() != null) {
             existingBalanceSheet.setLiabilities(balanceSheet.getLiabilities());
         }
-        BalanceSheet updatedBalanceSheet = balanceSheetService.updateBlanaceSheet(id, existingBalanceSheet);
+        BalanceSheet updatedBalanceSheet = balanceSheetService.updateBlanaceSheet(balanceId, existingBalanceSheet);
         return updatedBalanceSheet;
 
     }

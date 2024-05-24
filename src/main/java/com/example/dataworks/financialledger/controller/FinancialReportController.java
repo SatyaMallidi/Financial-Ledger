@@ -32,9 +32,9 @@ public class FinancialReportController {
         return financialReportService.createFinancialReport(financialReport);
     }
 
-    @GetMapping("/{id}")
-    public FinancialReport getFinancialReport(@PathVariable Long id) {
-        FinancialReport financialReport = financialReportService.getFinancialReport(id);
+    @GetMapping("/{financialId}")
+    public FinancialReport getFinancialReport(@PathVariable Long financialId) {
+        FinancialReport financialReport = financialReportService.getFinancialReport(financialId);
         return financialReport;
     }
 
@@ -44,9 +44,9 @@ public class FinancialReportController {
         return financialReports;
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteFinancialReportById(@PathVariable Long id) {
-        financialReportService.deleteFinancialReport(id);
+    @DeleteMapping("/{financialId}")
+    public void deleteFinancialReportById(@PathVariable Long financialId) {
+        financialReportService.deleteFinancialReport(financialId);
     }
 
     @DeleteMapping("/user/{userId}")
@@ -71,15 +71,15 @@ public class FinancialReportController {
         return financialReportService.generateQuarterlyReport(userId, year, quarter);
     }
 
-    @PutMapping("/{id}")
-    public FinancialReport updateFinancialReport(@PathVariable Long id, @RequestBody FinancialReport financialReport) {
-        return financialReportService.updFinancialReport(id, financialReport);
+    @PutMapping("/{financialId}")
+    public FinancialReport updateFinancialReport(@PathVariable Long financialId, @RequestBody FinancialReport financialReport) {
+        return financialReportService.updFinancialReport(financialId, financialReport);
     }
 
-    @PatchMapping("/{id}")
-    public FinancialReport partiallyUpdateFinancialReport(@PathVariable Long id,
+    @PatchMapping("/{financialId}")
+    public FinancialReport partiallyUpdateFinancialReport(@PathVariable Long financialId,
             @RequestBody FinancialReport financialReport) {
-        FinancialReport existingReport = financialReportService.getFinancialReport(id);
+        FinancialReport existingReport = financialReportService.getFinancialReport(financialId);
         if (financialReport.getNetProfit() != null) {
             existingReport.setNetProfit(financialReport.getNetProfit());
         }
@@ -89,6 +89,6 @@ public class FinancialReportController {
         if (financialReport.getTotalIncome() != null) {
             existingReport.setTotalIncome(financialReport.getTotalIncome());
         }
-        return financialReportService.updFinancialReport(id, existingReport);
+        return financialReportService.updFinancialReport(financialId, existingReport);
     }
 }

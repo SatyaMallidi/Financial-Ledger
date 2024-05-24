@@ -28,10 +28,10 @@ public class BalanceSheetImplService implements BalanceSheetService {
     }
 
     @Override
-    public BalanceSheet getBalanceSheetById(Long id) {
-        return balanceSheetRepository.findById(id)
+    public BalanceSheet getBalanceSheetById(Long balanceId) {
+        return balanceSheetRepository.findById(balanceId)
                 .orElseThrow(() -> new com.example.dataworks.financialledger.Exception.BalanceSheetExceptionNotFound(
-                        "BalanceSheet not found with id: " + id));
+                        "BalanceSheet not found with id: " + balanceId));
     }
 
     @Override
@@ -44,10 +44,10 @@ public class BalanceSheetImplService implements BalanceSheetService {
     }
 
     @Override
-    public void deleteBalanceSheet(Long id) {
-        balanceSheetRepository.findById(id)
-                .orElseThrow(() -> new BalanceSheetExceptionNotFound("BalanceSheet not found with id: " + id));
-        balanceSheetRepository.deleteById(id);
+    public void deleteBalanceSheet(Long balanceId) {
+        balanceSheetRepository.findById(balanceId)
+                .orElseThrow(() -> new BalanceSheetExceptionNotFound("BalanceSheet not found with id: " + balanceId));
+        balanceSheetRepository.deleteById(balanceId);
     }
 
     @Override
@@ -60,8 +60,8 @@ public class BalanceSheetImplService implements BalanceSheetService {
     }
 
     @Override
-    public BalanceSheet updateBlanaceSheet(Long id, BalanceSheet balanceSheet) {
-        Optional<BalanceSheet> existingbalancesheet = balanceSheetRepository.findById(id);
+    public BalanceSheet updateBlanaceSheet(Long balanceId, BalanceSheet balanceSheet) {
+        Optional<BalanceSheet> existingbalancesheet = balanceSheetRepository.findById(balanceId);
         if (existingbalancesheet == null) {
             throw new UserExceptionNotFound("The BalanceSheet is not found");
         }

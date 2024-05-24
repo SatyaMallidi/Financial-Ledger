@@ -8,11 +8,11 @@ public interface FinancialReportService {
 
     FinancialReport createFinancialReport(FinancialReport financialReport);
 
-    FinancialReport updFinancialReport(Long id, FinancialReport financialReport);
+    FinancialReport updFinancialReport(Long financialId, FinancialReport financialReport);
 
-    FinancialReport getFinancialReport(Long id);
+    FinancialReport getFinancialReport(Long financialId);
 
-    void deleteFinancialReport(Long id);
+    void deleteFinancialReport(Long financialId);
 
     void deleteFinancialReportByUserId(Long userId);
 

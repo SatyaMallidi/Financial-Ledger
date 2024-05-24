@@ -31,19 +31,19 @@ public class FinancialReportImplService implements FinancialReportService {
 
     @Override
     @Transactional
-    public FinancialReport getFinancialReport(Long id) {
-        return financialRepository.findById(id)
+    public FinancialReport getFinancialReport(Long financialId) {
+        return financialRepository.findById(financialId)
                 .orElseThrow(() -> new FinancialReportExceptionNotFound(
                         "FinancialReport is not found"));
     }
 
     @Override
     @Transactional
-    public void deleteFinancialReport(Long id) {
-        financialRepository.findById(id)
+    public void deleteFinancialReport(Long financialId) {
+        financialRepository.findById(financialId)
                 .orElseThrow(() -> new FinancialReportExceptionNotFound(
                         "FinancialReport is not deleted"));
-        financialRepository.deleteById(id);
+        financialRepository.deleteById(financialId);
     }
 
     @Override
@@ -99,8 +99,8 @@ public class FinancialReportImplService implements FinancialReportService {
     }
 
     @Override
-    public FinancialReport updFinancialReport(Long id, FinancialReport financialReport) {
-        Optional<FinancialReport> existingfinancialreport = financialRepository.findById(id);
+    public FinancialReport updFinancialReport(Long financialId, FinancialReport financialReport) {
+        Optional<FinancialReport> existingfinancialreport = financialRepository.findById(financialId);
         if (existingfinancialreport == null) {
             throw new UserExceptionNotFound("The FinancialReport is not found");
         }

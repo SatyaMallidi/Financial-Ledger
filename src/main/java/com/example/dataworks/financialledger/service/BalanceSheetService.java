@@ -7,13 +7,13 @@ import com.example.dataworks.financialledger.entity.BalanceSheet;
 public interface BalanceSheetService {
    public BalanceSheet saveBalanceSheet(BalanceSheet balanceSheet);
 
-   public BalanceSheet getBalanceSheetById(Long id);
+   public BalanceSheet getBalanceSheetById(Long balanceId);
 
    public List<BalanceSheet> getBalanceSheetsByUserId(Long userId);
 
-   public void deleteBalanceSheet(Long id);
+   public void deleteBalanceSheet(Long balanceId);
 
    public void deleteBalanceSheetByUserId(Long userId);
 
-   public BalanceSheet updateBlanaceSheet(Long id, BalanceSheet balanceSheet);
+   public BalanceSheet updateBlanaceSheet(Long balanceId, BalanceSheet balanceSheet);
 }
