@@ -3,6 +3,7 @@ package com.example.dataworks.financialledger.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -25,12 +26,15 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+    
+
 
     @PostMapping("/")
     public User createUser(@RequestBody User user) {
         User createdUser = userService.createUser(user);
         return createdUser;
     }
+   
 
     @GetMapping("/{userId}")
     public User getUserById(@PathVariable Long userId) {
