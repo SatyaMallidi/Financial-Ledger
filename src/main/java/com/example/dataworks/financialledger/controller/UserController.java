@@ -25,12 +25,15 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+    
+
 
     @PostMapping("/")
     public User createUser(@RequestBody User user) {
         User createdUser = userService.createUser(user);
         return createdUser;
     }
+   
 
     @GetMapping("/{userId}")
     public User getUserById(@PathVariable Long userId) {
