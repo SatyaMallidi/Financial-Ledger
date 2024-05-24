@@ -9,5 +9,7 @@ import com.example.dataworks.financialledger.entity.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 
   User findByEmailAndUserId(String email, Long userId);
+
+  User findByUsername(String username);
     
 }

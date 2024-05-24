@@ -1,16 +1,17 @@
-package com.example.dataworks.financialledger.DTO;
+package com.example.dataworks.financialledger.entity;
 
 public class AuthenticationRequest {
 
     private String username;
     private String password;
 
+    // Default constructor for JSON Parsing
+    public AuthenticationRequest() {
+    }
+
     public AuthenticationRequest(String username, String password) {
         this.username = username;
         this.password = password;
-    }
-
-    public AuthenticationRequest() {
     }
 
     public String getUsername() {
@@ -28,9 +29,4 @@ public class AuthenticationRequest {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    
-
-    
-    
 }

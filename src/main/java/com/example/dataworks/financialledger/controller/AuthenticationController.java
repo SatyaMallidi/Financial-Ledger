@@ -1,40 +1,44 @@
 package com.example.dataworks.financialledger.controller;
 
-
+import com.example.dataworks.financialledger.Utility.JWTUtility;
+import com.example.dataworks.financialledger.entity.AuthenticationRequest;
+import com.example.dataworks.financialledger.entity.AuthenticationResponse;
+import com.example.dataworks.financialledger.service.MyUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.context.annotation.Lazy;
-
-import com.example.dataworks.financialledger.DTO.AuthenticationRequest;
-import com.example.dataworks.financialledger.Utility.JwtUtil;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/authenticate")
 public class AuthenticationController {
 
-    private final UserDetailsService userDetailsService;
-    private final JwtUtil jwtUtil;
-    private final AuthenticationManager authenticationManager;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
-    public AuthenticationController(UserDetailsService userDetailsService, JwtUtil jwtUtil, @Lazy AuthenticationManager authenticationManager) {
-        this.userDetailsService = userDetailsService;
-        this.jwtUtil = jwtUtil;
-        this.authenticationManager = authenticationManager;
-    }
+    @Autowired
+    @Lazy
+    private MyUserDetailsService userDetailsService;
 
-    @PostMapping
-    public String createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
-        );
+    @Autowired
+    @Lazy
+    private JWTUtility jwtUtil;
+
+    @PostMapping("/authenticate")
+    public AuthenticationResponse createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
+            );
+        } catch (AuthenticationException e) {
+            throw new Exception("Incorrect username or password", e);
+        }
+
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        final String jwt = jwtUtil.generateToken(userDetails);
-        return jwt;
+        final String jwt = jwtUtil.generateToken(userDetails.getUsername());
+
+        return new AuthenticationResponse(jwt);
     }
 }

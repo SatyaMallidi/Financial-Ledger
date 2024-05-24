@@ -24,7 +24,7 @@ public class Transaction {
     @Column(length = 500)
     private String description;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

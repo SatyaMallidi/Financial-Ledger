@@ -1,27 +1,30 @@
 package com.example.dataworks.financialledger.service;
 
+import com.example.dataworks.financialledger.entity.User;
+import com.example.dataworks.financialledger.repository.UserRepository;
+
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.example.dataworks.financialledger.entity.User;
-
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserService userService;
+    @Lazy
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.getUserByEmailAndId(username, null);
+        User user = userRepository.findByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),new ArrayList<>());
     }
 }
