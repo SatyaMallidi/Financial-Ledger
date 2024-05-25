@@ -1,6 +1,8 @@
 package com.example.dataworks.financialledger.controller;
 
 import java.util.List;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,8 +18,11 @@ import com.example.dataworks.financialledger.entity.User;
 import com.example.dataworks.financialledger.service.AuthenticationService;
 import com.example.dataworks.financialledger.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
@@ -37,6 +42,16 @@ public class UserController {
     public AuthenticationResponse login(@RequestBody User request) {
         return authenticationService.authenticate(request);
     }
+
+     @SuppressWarnings("rawtypes")
+    @PostMapping("/refresh_token")
+    public ResponseEntity refreshToken(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) {
+        return authenticationService.refreshToken(request, response);
+    }
+
 
     @GetMapping("/{userId}")
     public User getUserById(@PathVariable Long userId) {

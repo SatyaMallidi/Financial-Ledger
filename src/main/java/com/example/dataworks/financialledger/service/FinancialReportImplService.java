@@ -23,67 +23,62 @@ public class FinancialReportImplService implements FinancialReportService {
     public FinancialReport createFinancialReport(FinancialReport financialReport) {
         FinancialReport newFinancialReport = financialRepository.save(financialReport);
         if (newFinancialReport == null) {
-            throw new FinancialReportExceptionNotFound(
-                    "FinancialReport is not saved");
+            throw new FinancialReportExceptionNotFound("FinancialReport is not saved");
         }
         return newFinancialReport;
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public FinancialReport getFinancialReport(Long financialId) {
         return financialRepository.findById(financialId)
-                .orElseThrow(() -> new FinancialReportExceptionNotFound(
-                        "FinancialReport is not found"));
+                .orElseThrow(() -> new FinancialReportExceptionNotFound("FinancialReport is not found"));
     }
 
     @Override
     @Transactional
     public void deleteFinancialReport(Long financialId) {
         financialRepository.findById(financialId)
-                .orElseThrow(() -> new FinancialReportExceptionNotFound(
-                        "FinancialReport is not deleted"));
+                .orElseThrow(() -> new FinancialReportExceptionNotFound("FinancialReport is not deleted"));
         financialRepository.deleteById(financialId);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<FinancialReport> getFinancialReportByUserId(Long userId) {
         List<FinancialReport> financialReports = financialRepository.findByUserUserId(userId);
         if (financialReports == null) {
-            throw new FinancialReportExceptionNotFound(
-                    "FinancialReport is not found");
+            throw new FinancialReportExceptionNotFound("FinancialReport is not found");
         }
         return financialReports;
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<FinancialReport> generateMonthlyReport(Long userId, int year, int month) {
         List<FinancialReport> financialReports = financialRepository.findMonthlyReports(userId, year, month);
         if (financialReports == null) {
-            throw new FinancialReportExceptionNotFound("FinancialReports is not found");
+            throw new FinancialReportExceptionNotFound("FinancialReports are not found");
         }
         return financialReports;
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<FinancialReport> generateYearlyReport(Long userId, int year) {
         List<FinancialReport> financialReports = financialRepository.findYearlyReports(userId, year);
         if (financialReports == null) {
-            throw new FinancialReportExceptionNotFound("FinancialReports is not found");
+            throw new FinancialReportExceptionNotFound("FinancialReports are not found");
         }
         return financialReports;
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<FinancialReport> generateQuarterlyReport(Long userId, int year, int quarter) {
         List<FinancialReport> financialReports = financialRepository.findQuarterlyReports(userId, year, quarter);
         if (financialReports == null) {
-            throw new FinancialReportExceptionNotFound(
-                    "FinancialReports is not found");
+            throw new FinancialReportExceptionNotFound("FinancialReports are not found");
         }
         return financialReports;
     }
@@ -99,13 +94,12 @@ public class FinancialReportImplService implements FinancialReportService {
     }
 
     @Override
+    @Transactional
     public FinancialReport updFinancialReport(Long financialId, FinancialReport financialReport) {
         Optional<FinancialReport> existingfinancialreport = financialRepository.findById(financialId);
-        if (existingfinancialreport == null) {
+        if (!existingfinancialreport.isPresent()) {
             throw new UserExceptionNotFound("The FinancialReport is not found");
         }
         return financialRepository.save(financialReport);
-
     }
-
 }

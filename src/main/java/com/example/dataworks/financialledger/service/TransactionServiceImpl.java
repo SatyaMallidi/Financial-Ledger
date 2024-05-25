@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dataworks.financialledger.Exception.TransactionExceptionNotFound;
 import com.example.dataworks.financialledger.Exception.UserExceptionNotFound;
@@ -20,6 +21,7 @@ public class TransactionServiceImpl implements TransactionService {
     private TransactionRepository transactionRepository;
 
     @Override
+    @Transactional
     public Transaction createTransaction(Transaction transaction) {
         Transaction transaction2 = transactionRepository.save(transaction);
         if (transaction2 == null) {
@@ -29,6 +31,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Transactional
     public void deleteTransaction(Long transactionId) {
         transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new TransactionExceptionNotFound("Transaction was not found"));
@@ -36,42 +39,45 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Transaction> getAllTransactions() {
-        List<Transaction> transaction = transactionRepository.findAll();
-        if (transaction == null) {
-            throw new TransactionExceptionNotFound("Transaction is not found");
-        }
-        return transaction;
-    }
-
-    @Override
-    public Transaction getTransactionById(Long transactionId) {
-        return transactionRepository.findById(transactionId)
-                .orElseThrow(() -> new TransactionExceptionNotFound("Transaction is not found for r" + transactionId));
-
-    }
-
-    @Override
-    public List<Transaction> getTransactionsByDate(LocalDate date) {
-        List<Transaction> transactions = transactionRepository.findByDate(date);
+        List<Transaction> transactions = transactionRepository.findAll();
         if (transactions == null) {
-            throw new TransactionExceptionNotFound("Transactions are not found in this date");
+            throw new TransactionExceptionNotFound("Transactions are not found");
         }
         return transactions;
     }
 
     @Override
-    public List<Transaction> getTransactionsByType(TransactionType type) {
-        List<Transaction> transaction = transactionRepository.findByType(type);
-        if (transaction == null) {
-            throw new TransactionExceptionNotFound("Transactions are not found for this type");
-        }
-        return transaction;
+    @Transactional(readOnly = true)
+    public Transaction getTransactionById(Long transactionId) {
+        return transactionRepository.findById(transactionId)
+                .orElseThrow(() -> new TransactionExceptionNotFound("Transaction is not found for id " + transactionId));
     }
 
     @Override
-    public List<Transaction> getTransactionsByUserId(Long userId) {
+    @Transactional(readOnly = true)
+    public List<Transaction> getTransactionsByDate(LocalDate date) {
+        List<Transaction> transactions = transactionRepository.findByDate(date);
+        if (transactions == null) {
+            throw new TransactionExceptionNotFound("Transactions are not found for this date");
+        }
+        return transactions;
+    }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Transaction> getTransactionsByType(TransactionType type) {
+        List<Transaction> transactions = transactionRepository.findByType(type);
+        if (transactions == null) {
+            throw new TransactionExceptionNotFound("Transactions are not found for this type");
+        }
+        return transactions;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Transaction> getTransactionsByUserId(Long userId) {
         List<Transaction> transactions = transactionRepository.findByUserUserId(userId);
         if (transactions == null) {
             throw new TransactionExceptionNotFound("Transactions are not found for this userId");
@@ -80,13 +86,12 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Transactional
     public Transaction updateTransaction(Long transactionId, Transaction transaction) {
-        Optional<Transaction> existingtransaction = transactionRepository.findById(transactionId);
-        if (existingtransaction == null) {
-            throw new UserExceptionNotFound("The Transactions is not found");
+        Optional<Transaction> existingTransaction = transactionRepository.findById(transactionId);
+        if (!existingTransaction.isPresent()) {
+            throw new UserExceptionNotFound("The Transaction is not found");
         }
         return transactionRepository.save(transaction);
-
     }
-
 }

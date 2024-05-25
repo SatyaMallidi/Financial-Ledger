@@ -5,7 +5,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-
+import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,6 +27,9 @@ public class JwtService {
 
     @Value("${application.security.jwt.access-token-expiration}")
     private long accessTokenExpire;
+
+    @Value("${application.security.jwt.refresh-token-expiration}")
+    private long refreshTokenExpire;
 
 
     private final TokenRepository tokenRepository;
@@ -51,6 +54,17 @@ public class JwtService {
         return (username.equals(user.getUsername())) && !isTokenExpired(token) && validToken;
     }
 
+    public boolean isValidRefreshToken(String token, User user) {
+        String username = extractUsername(token);
+
+        boolean validRefreshToken = tokenRepository
+                .findByRefreshToken(token)
+                .map(t -> !t.isLoggedOut())
+                .orElse(false);
+
+        return (username.equals(user.getUsername())) && !isTokenExpired(token) && validRefreshToken;
+    }
+
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
@@ -72,9 +86,14 @@ public class JwtService {
             .parseClaimsJws(token)
             .getBody();
 }
-
+    
+    @Transactional
     public String generateAccessToken(User user) {
         return generateToken(user, accessTokenExpire);
+    }
+
+    public String generateRefreshToken(User user) {
+        return generateToken(user, refreshTokenExpire );
     }
 
     private String generateToken(User user, long expireTime) {
