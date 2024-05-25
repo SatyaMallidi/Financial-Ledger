@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
-@RequestMapping("/balanceSheet")
+@RequestMapping("/api/public/balanceSheet")
 public class BalanceSheetController {
 
     @Autowired

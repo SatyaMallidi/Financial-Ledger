@@ -1,8 +1,6 @@
 package com.example.dataworks.financialledger.controller;
 
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -13,27 +11,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.dataworks.financialledger.entity.AuthenticationResponse;
 import com.example.dataworks.financialledger.entity.User;
+import com.example.dataworks.financialledger.service.AuthenticationService;
 import com.example.dataworks.financialledger.service.UserService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
+    private final AuthenticationService authenticationService;
     
-
-
-    @PostMapping("/")
-    public User createUser(@RequestBody User user) {
-        User createdUser = userService.createUser(user);
-        return createdUser;
+    public UserController(UserService userService, AuthenticationService authenticationService) {
+        this.userService = userService;
+        this.authenticationService = authenticationService;
     }
-   
+
+    @PostMapping("/register")
+    public AuthenticationResponse register(@RequestBody User request) {
+        return authenticationService.register(request);
+    }
+
+    @PostMapping("/login")
+    public AuthenticationResponse login(@RequestBody User request) {
+        return authenticationService.authenticate(request);
+    }
 
     @GetMapping("/{userId}")
     public User getUserById(@PathVariable Long userId) {

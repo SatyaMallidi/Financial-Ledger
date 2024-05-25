@@ -1,7 +1,7 @@
 package com.example.dataworks.financialledger.Filter;
 
 import com.example.dataworks.financialledger.service.JwtService;
-import com.example.dataworks.financialledger.service.UserDetailsServiceImpl;
+import com.example.dataworks.financialledger.service.UserServiceImpl;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,12 +22,12 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final UserDetailsServiceImpl userDetailsService;
+    private final UserServiceImpl userServiceImpl;
 
 
-    public JwtAuthenticationFilter(JwtService jwtService, UserDetailsServiceImpl userDetailsService) {
+    public JwtAuthenticationFilter(JwtService jwtService, UserServiceImpl userServiceImpl) {
         this.jwtService = jwtService;
-        this.userDetailsService = userDetailsService;
+        this.userServiceImpl = userServiceImpl;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = userServiceImpl.loadUserByUsername(username);
 
 
             if(jwtService.isValid(token, userDetails)) {

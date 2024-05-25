@@ -3,23 +3,18 @@ package com.example.dataworks.financialledger.service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
+
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.example.dataworks.financialledger.entity.User;
 import com.example.dataworks.financialledger.repository.TokenRepository;
 
-import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 
 import javax.crypto.SecretKey;
@@ -32,9 +27,6 @@ public class JwtService {
 
     @Value("${application.security.jwt.access-token-expiration}")
     private long accessTokenExpire;
-
-    @Value("${application.security.jwt.refresh-token-expiration}")
-    private long refreshTokenExpire;
 
 
     private final TokenRepository tokenRepository;
@@ -57,17 +49,6 @@ public class JwtService {
                 .orElse(false);
 
         return (username.equals(user.getUsername())) && !isTokenExpired(token) && validToken;
-    }
-
-    public boolean isValidRefreshToken(String token, User user) {
-        String username = extractUsername(token);
-
-        boolean validRefreshToken = tokenRepository
-                .findByRefreshToken(token)
-                .map(t -> !t.isLoggedOut())
-                .orElse(false);
-
-        return (username.equals(user.getUsername())) && !isTokenExpired(token) && validRefreshToken;
     }
 
     private boolean isTokenExpired(String token) {
@@ -94,10 +75,6 @@ public class JwtService {
 
     public String generateAccessToken(User user) {
         return generateToken(user, accessTokenExpire);
-    }
-
-    public String generateRefreshToken(User user) {
-        return generateToken(user, refreshTokenExpire );
     }
 
     private String generateToken(User user, long expireTime) {

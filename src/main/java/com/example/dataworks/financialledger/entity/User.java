@@ -1,7 +1,5 @@
 package com.example.dataworks.financialledger.entity;
 
-import com.example.dataworks.financialledger.Exception.UserExceptionNotFound;
-
 import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -33,5 +31,4 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
 }

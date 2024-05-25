@@ -1,9 +1,7 @@
 package com.example.dataworks.financialledger.Security;
 
 import com.example.dataworks.financialledger.Filter.JwtAuthenticationFilter;
-import com.example.dataworks.financialledger.service.UserDetailsServiceImpl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -27,30 +25,29 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private JwtAuthenticationFilter jwtRequestFilter;
-    private UserDetailsServiceImpl userDetailsServiceImpl;
-    private CustomAccessDeniedHandler accessDeniedHandler;
+    private final JwtAuthenticationFilter jwtRequestFilter;
+    private final UserDetailsService userDetailsServiceImpl;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
     
-    public SecurityConfig(JwtAuthenticationFilter jwtRequestFilter, UserDetailsServiceImpl userDetailsServiceImpl,
+    public SecurityConfig(JwtAuthenticationFilter jwtRequestFilter, UserDetailsService userDetailsServiceImpl,
             CustomAccessDeniedHandler accessDeniedHandler) {
         this.jwtRequestFilter = jwtRequestFilter;
         this.userDetailsServiceImpl = userDetailsServiceImpl;
         this.accessDeniedHandler = accessDeniedHandler;
     }
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
         .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login/**","/register/**", "/refresh_token/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/public/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/public/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/public/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/public/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/user/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/user/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/user/**").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/api/user/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/user/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
@@ -63,15 +60,14 @@ public class SecurityConfig {
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-    
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 }
