@@ -2,7 +2,6 @@ package com.example.dataworks.financialledger.controller;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -43,13 +42,12 @@ public class UserController {
         return authenticationService.authenticate(request);
     }
 
-     @SuppressWarnings("rawtypes")
     @PostMapping("/refresh_token")
-    public ResponseEntity refreshToken(
+    public void refreshToken(
             HttpServletRequest request,
             HttpServletResponse response
     ) {
-        return authenticationService.refreshToken(request, response);
+      authenticationService.refreshToken(request, response);
     }
 
 
