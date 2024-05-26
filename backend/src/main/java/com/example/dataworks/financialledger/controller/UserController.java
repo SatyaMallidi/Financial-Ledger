@@ -2,6 +2,8 @@ package com.example.dataworks.financialledger.controller;
 
 import java.util.List;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -40,6 +42,21 @@ public class UserController {
     @PostMapping("/login")
     public AuthenticationResponse login(@RequestBody User request) {
         return authenticationService.authenticate(request);
+    }
+
+    @PostMapping("/logout")
+    public String logout(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return "Invalid user details.";
+        }
+        
+        User user = userService.findByUsername(userDetails.getUsername());
+        if (user == null) {
+            return "User not found.";
+        }
+
+        authenticationService.revokeAllTokenByUser(user);
+        return "Logged out successfully.";
     }
 
     @PostMapping("/refresh_token")
