@@ -1,4 +1,3 @@
-/* src/Login/LoginRegister.css */
 .login-register-container {
   display: flex;
   height: 100vh;
@@ -6,14 +5,15 @@
 
 .left-side {
   flex: 1;
-  background-color: #f0f0f0;
+  background-color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-right: -120px;
 }
 
 .left-side .logo {
-  max-width: 80%;
+  max-width: 100%;
   height: auto;
 }
 
@@ -25,13 +25,14 @@
   align-items: center;
   padding: 20px;
   background-color: #fff;
+  margin-left: -0px; 
 }
 
 .right-side h1 {
   text-align: center;
   margin-bottom: 20px;
   font-size: 24px;
-  color: #4267b2;
+  color: #ef182d;
 }
 
 .right-side form {
@@ -56,7 +57,7 @@
   margin: 10px 0;
   border: none;
   border-radius: 5px;
-  background-color: #4267b2;
+  background-color: #ef182d;
   color: #fff;
   font-size: 16px;
   cursor: pointer;
@@ -64,7 +65,7 @@
 }
 
 .right-side button:hover {
-  background-color: #365899;
+  background-color: #fc3e51;
 }
 
 .right-side .role-selector {
@@ -75,16 +76,14 @@
 
 .right-side .role-selector label {
   font-size: 16px;
-  color: #555;
+  color: #2a2b33;
 }
 
-.right-side .toggle-button {
-  background: none;
-  border: none;
-  color: #4267b2;
-  cursor: pointer;
-  text-align: center;
-  margin-top: 10px;
-  font-size: 14px;
-  padding-left: 145px;
+.toggle-button {
+  color: #ef182d;
+}
+
+.toggle-button:hover {
+  color: #fc3e51;
+  text-decoration: underline;
 }

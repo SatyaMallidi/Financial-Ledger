@@ -4,7 +4,6 @@ body {
   padding: 0;
   font-family: Arial, sans-serif;
 }
-
 .background-image {
   background-image: url('Images/FL-Blogo.jpeg');
   background-size: cover;
@@ -13,41 +12,8 @@ body {
   min-height: 100vh;
 }
 
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: rgba(255, 255, 255, 0.9); /* Add a semi-transparent white background */
-}
 
-.login-form {
-  width: 300px;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a shadow effect */
-}
 
-.login-input {
-  width: 100%;
-  margin-bottom: 16px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  outline: none;
-}
 
-.login-button {
-  width: 100%;
-  padding: 8px;
-  background-color: #002D62;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
 
-.login-button:hover {
-  background-color: #001E42;
-}
+

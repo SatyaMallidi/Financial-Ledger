@@ -1,5 +1,5 @@
-// AuthContext.js
 import React, { createContext, useState } from 'react';
+import axios from 'axios';
 
 export const AuthContext = createContext();
 
@@ -7,19 +7,47 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const login = async (username, password) => {
-    // Dummy login function
-    if (username === 'admin' && password === 'password') {
-      setIsLoggedIn(true);
+    try {
+      const response = await axios.post('http://localhost:8090/api/user/login', {
+        username,
+        password,
+      });
+
+      if (response.status === 200) {
+        setIsLoggedIn(true);
+      }
+    } catch (error) {
+      console.error('Login failed:', error);
     }
   };
 
   const register = async (username, email, password, role) => {
-    // Dummy register function
-    setIsLoggedIn(true);
+    try {
+      const response = await axios.post('http://localhost:8090/api/user/register', {
+        username,
+        email,
+        password,
+        role,
+      });
+
+      if (response.status === 200) {
+        setIsLoggedIn(true);
+      }
+    } catch (error) {
+      console.error('Registration failed:', error);
+    }
   };
 
   const logout = async () => {
-    setIsLoggedIn(false);
+    try {
+      const response = await axios.post('http://localhost:8090/api/user/logout');
+      
+      if (response.status === 200) {
+        setIsLoggedIn(false);
+      }
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
   };
 
   return (

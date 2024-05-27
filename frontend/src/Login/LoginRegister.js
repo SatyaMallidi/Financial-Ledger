@@ -2,7 +2,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from './AuthContext';
 import './LoginRegister.css';
-import logo from '../Images/FL-logo.jpg';
+import logo from '../Images/Loginlogo.jpg.png';
 
 const LoginRegister = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -76,9 +76,9 @@ const LoginRegister = () => {
           )}
           <button type="submit">{isLogin ? 'Login' : 'Register'}</button>
         </form>
-        <button className="toggle-button" onClick={() => setIsLogin(!isLogin)}>
+        <a className="toggle-button" onClick={() => setIsLogin(!isLogin)}>
           {isLogin ? 'Switch to Register' : 'Switch to Login'}
-        </button>
+        </a>
       </div>
     </div>
   );
