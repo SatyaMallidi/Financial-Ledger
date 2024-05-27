@@ -1,0 +1,90 @@
+/* src/Login/LoginRegister.css */
+.login-register-container {
+  display: flex;
+  height: 100vh;
+}
+
+.left-side {
+  flex: 1;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.left-side .logo {
+  max-width: 80%;
+  height: auto;
+}
+
+.right-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.right-side h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #4267b2;
+}
+
+.right-side form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 300px;
+}
+
+.right-side input[type="text"],
+.right-side input[type="email"],
+.right-side input[type="password"] {
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.right-side button {
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  background-color: #4267b2;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.right-side button:hover {
+  background-color: #365899;
+}
+
+.right-side .role-selector {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0;
+}
+
+.right-side .role-selector label {
+  font-size: 16px;
+  color: #555;
+}
+
+.right-side .toggle-button {
+  background: none;
+  border: none;
+  color: #4267b2;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+  padding-left: 145px;
+}
