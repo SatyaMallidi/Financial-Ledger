@@ -10,13 +10,14 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import logo from '../Images/FL-logo.jpg';
+import { Link } from 'react-router-dom';
 
 const pages = ['Home', 'Transaction', 'BalanceSheet', 'FinancialReport'];
 const settings = ['Profile', 'AccountSettings', 'Logout'];
 
 function Navigation() {
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const loggedInUser = "Satya";
+  const loggedInUser = "Kandy";
 
   const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
   const handleCloseUserMenu = () => setAnchorElUser(null);
@@ -31,10 +32,17 @@ function Navigation() {
         </Typography>
 
         {pages.map((page) => (
-          <Button key={page} sx={{ mx: 1 }} color="inherit">
+          <Button
+            key={page}
+            sx={{ mx: 1 }}
+            color="inherit"
+            component={Link}
+            to={`/${page.toLowerCase().replace(/ /g, '-')}`} 
+          >
             {page}
           </Button>
         ))}
+
 
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ ml: 2 }}>
