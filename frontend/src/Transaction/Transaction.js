@@ -1,28 +1,36 @@
 import React, { useState } from 'react';
-import './TransactionTable';
-import  './TransactionNew';
+import TransactionTable from './TransactionTable';
+import TransactionNew from './TransactionNew'; // Ensure you import the correct component here
 import './Transaction.css';
 
 function Transaction() {
   const [showTable, setShowTable] = useState(false);
   const [showNewTable, setShowNewTable] = useState(false);
 
-  const handleTransactionTableClick = () => {
+  const handleButtonClick = () => {
     setShowTable(true);
-    setShowNewTable(false); 
+    setShowNewTable(false); // Ensure only one table is shown at a time
   };
 
-  const handleTransactionNewTableClick = () => {
+  const handleNewButtonClick = () => {
     setShowNewTable(true);
-    setShowTable(false); 
+    setShowTable(false); // Ensure only one table is shown at a time
   };
 
   return (
     <>
-      <p>Financial Report</p>
-      <button class="green-button"onClick={handleTransactionNewTableClick}>Create New</button>
-      <button class="blue-button" onClick={handleTransactionTableClick}>All Transactions</button>
-          </>
+      {showTable ? (
+        <TransactionTable />
+      ) : showNewTable ? (
+        <TransactionNew />
+      ) : (
+        <>
+          <p>Financial Report</p>
+          <button className="blue-button" onClick={handleNewButtonClick}>Create new</button>
+          <button className="green-button" onClick={handleButtonClick}>All Transactions</button>
+        </>
+      )}
+    </>
   );
 }
 

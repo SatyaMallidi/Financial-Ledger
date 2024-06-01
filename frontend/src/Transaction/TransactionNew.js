@@ -15,7 +15,7 @@ import {
 const initialRows = [
   {
     id: '1',
-    transactionId: '1678',
+    transactionId: '1',
     date: new Date().toISOString().slice(0, 10),
     amount: '',
     description: '',
@@ -29,7 +29,7 @@ function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
   const handleClick = () => {
-    const id = Math.floor(1000 + Math.random() * 9000); 
+    const id = Math.floor(1000 + Math.random() * 9000); // Generate random four-digit number
     setRows(oldRows => [...oldRows, { id: id.toString(), transactionId: id.toString(), date: new Date().toISOString().slice(0, 10), amount: '', description: '', type: '', userId: '', isNew: true }]);
     setRowModesModel(oldModel => ({
       ...oldModel,
@@ -46,7 +46,7 @@ function EditToolbar(props) {
   );
 }
 
-export default function TransactionTable() {
+export default function TransactionNewTable() {
   const [rows, setRows] = useState(initialRows);
   const [rowModesModel, setRowModesModel] = useState({});
   const leaveConfirmationDialogOpen = useRef(false);
@@ -83,7 +83,7 @@ export default function TransactionTable() {
 
   const handleConfirmLeave = () => {
     leaveConfirmationDialogOpen.current = false;
-    
+    // Here you can implement any specific action when the user confirms leaving the row without saving
   };
 
   const columns = [
@@ -163,8 +163,7 @@ export default function TransactionTable() {
             borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
           },
           '& .MuiDataGrid-row': {
-            borderBottom:
-            '1px solid rgba(0, 0, 0, 0.1)',
+            borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
           },
           '& .MuiDataGrid-colCell:first-child': {
             borderLeft: '1px solid rgba(0, 0, 0, 0.1)',

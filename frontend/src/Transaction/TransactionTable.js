@@ -14,10 +14,6 @@ import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import './Transaction.css';
 
-
-
-
-
 const columns = (rowModesModel, handleEditClick, handleSaveClick, handleCancelClick, handleDeleteClick) => [
   { field: 'transactionId', headerName: 'TransactionID', width: 100 },
   { field: 'amount', headerName: 'Amount', width: 130, editable: true },
@@ -74,7 +70,7 @@ export default function TransactionTable() {
   const [rowModesModel, setRowModesModel] = useState({});
 
   useEffect(() => {
-    axios.get("http://localhost:8090/api/public/transactions/")
+    axios.get("http://localhost:8090/api/public/transactions/") // Replace 123 with the actual user ID
       .then((res) => setRows(res.data.map((row) => ({ ...row, id: row.transactionId }))));
   }, []);
 

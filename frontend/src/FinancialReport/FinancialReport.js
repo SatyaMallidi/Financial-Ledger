@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './FinancialReportList'; // Ensure this component exists
-import './NewFinancialReport'; // Ensure this component exists
 import './FinancialReport.css';
+import FinancialReportList from './FinancialReportList';
+import NewFinancialReport from './NewFinancialReport';
 
 
 function FinancialReport() {
@@ -18,13 +18,22 @@ function FinancialReport() {
         setShowTable(false);
     };
 
+
     return (
         <>
-            <p>Financial Report</p>
-            <button class="green-button" onClick={handleNewFinancialReportClick}>Create New</button>
-            <button class="blue-button" onClick={handleFinancialReportListClick}>All Transactions</button>
+          {showTable ? (
+            <><FinancialReportList /><NewFinancialReport /></>
+          ) : (
+            <>
+              <p>Financial Report</p>
+              <button class="blue-button" onClick={handleNewFinancialReportClick}>Create new</button>
+              <button class="green-button" onClick={handleFinancialReportListClick}>All FinancialReport</button>
+            </>
+          )}
         </>
-    );
+      );
+
+    
 }
 
 export default FinancialReport;
