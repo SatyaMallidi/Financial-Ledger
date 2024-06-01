@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './FinancialReport.css';
+import '../CssFolder/Table.css';
 import FinancialReportList from './FinancialReportList';
 import NewFinancialReport from './NewFinancialReport';
 
@@ -21,9 +21,11 @@ function FinancialReport() {
 
     return (
         <>
-          {showTable ? (
-            <><FinancialReportList /><NewFinancialReport /></>
-          ) : (
+         {showTable ? (
+        <FinancialReportList />
+      ) : showNewTable ? (
+        <NewFinancialReport />
+      ) : (
             <>
               <p>Financial Report</p>
               <button class="blue-button" onClick={handleNewFinancialReportClick}>Create new</button>

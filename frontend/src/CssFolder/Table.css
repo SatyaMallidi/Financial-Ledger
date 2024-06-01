@@ -1,6 +1,7 @@
-button{
-  margin-top: 30px;
+.Table{
+  margin-top: 80px;
 }
+
 button.blue-button {
   background-color: #002d62; /* Dark blue background */
   color: #ffffff; /* White text */
@@ -70,4 +71,8 @@ button.blue-button:hover::before {
 
 .green-button:hover::before {
   opacity: 1;
+}
+
+.Table{
+  margin-top: 100px;
 }

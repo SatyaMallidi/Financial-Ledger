@@ -1,30 +1,44 @@
-// BalanceSheet.js
-import React from 'react';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
+import React, { useState, useEffect } from 'react';
+import BalanceSheetList from './BalanceSheetList';
+import NewBalanceSheet from './NewBalanceSheet';
+import  '../CssFolder/Table.css';
 
-const BalanceSheet = () => {
-  const handleGenerateReport = () => {
-    // Implement the logic for generating a report
-    console.log('Generate Report clicked');
-  };
 
-  const handleExportData = () => {
-    // Implement the logic for exporting data
-    console.log('Export Data clicked');
-  };
 
-  return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, mt: 4 }}>
-      <h1>Balance Sheet</h1>
-      <Button variant="contained" color="primary" onClick={handleGenerateReport}>
-        Generate Report
-      </Button>
-      <Button variant="outlined" color="secondary" onClick={handleExportData}>
-        Export Data
-      </Button>
-    </Box>
-  );
-};
+
+
+function BalanceSheet() {
+    const [showTable, setShowTable] = useState(false);
+    const [showNewTable, setShowNewTable] = useState(false);
+
+    const handleBalanceSheetListClick = () => {
+        setShowTable(true);
+        setShowNewTable(false);
+    };
+
+    const handleNewBalanceSheetClick = () => {
+        setShowNewTable(true);
+        setShowTable(false);
+    };
+
+
+    return (
+        <>
+         {showTable ? (
+        <BalanceSheetList />
+      ) : showNewTable ? (
+        <NewBalanceSheet/>
+      ) : (
+            <>
+              <p>Financial Report</p>
+              <button class="blue-button" onClick={handleNewBalanceSheetClick}>Create new</button>
+              <button class="green-button" onClick={handleBalanceSheetListClick}>All BlanceSheet</button>
+            </>
+          )}
+        </>
+      );
+
+    
+}
 
 export default BalanceSheet;

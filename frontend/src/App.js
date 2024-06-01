@@ -30,8 +30,8 @@ const AppRoutes = () => {
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/transaction" element={<Transaction />} />
-            <Route path="/balance-sheet" element={<BalanceSheet />} />
-            <Route path="/financial-report" element={<FinancialReport />} />
+            <Route path="/balancesheet" element={<BalanceSheet />} />
+            <Route path="/financialreport" element={<FinancialReport />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </>

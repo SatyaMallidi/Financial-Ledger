@@ -11,11 +11,12 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
+import '../CssFolder/Table.css';
 
 const initialRows = [
   {
     id: '1',
-    transactionId: '1',
+    transactionId: '1563',
     date: new Date().toISOString().slice(0, 10),
     amount: '',
     description: '',
@@ -131,7 +132,7 @@ export default function TransactionNewTable() {
   ];
 
   return (
-    <Box
+    <Box className="Table"
       sx={{
         height: 500,
         width: '100%',

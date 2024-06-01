@@ -28,24 +28,23 @@ const columns = (handleDelete) => [
   },
 ];
 
-export default function BalanceSheetList() {
+const BalanceSheetList = ({ userId }) => {
   const [rows, setRows] = useState([]);
-  const userId = '123'; // Replace with actual userId
 
   useEffect(() => {
-    axios.get(`http://localhost:8090/api/public/balanceSheet/user/${userId}`)
+    axios.get(`http://localhost:8090/api/public/balanceSheet/`)
       .then((res) => setRows(res.data))
       .catch((err) => console.error('Error fetching balance sheets:', err));
   }, [userId]);
 
   const handleDelete = (balanceId) => {
-    axios.delete(`http://localhost:8090/api/public/balanceSheet/${balanceId}`)
+    axios.delete(`http://localhost:8090/api/public/balanceSheet/`)
       .then(() => setRows(rows.filter(row => row.balanceId !== balanceId)))
       .catch((err) => console.error('Error deleting balance sheet:', err));
   };
 
   return (
-    <Box sx={{ height: 500, width: '100%' }}>
+    <Box className="Table" sx={{ height: 500, width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns(handleDelete)}
@@ -56,3 +55,5 @@ export default function BalanceSheetList() {
     </Box>
   );
 }
+
+export default BalanceSheetList;

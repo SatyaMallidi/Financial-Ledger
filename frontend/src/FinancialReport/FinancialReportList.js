@@ -29,24 +29,23 @@ const columns = (handleDelete) => [
   },
 ];
 
-export default function FinancialReportList() {
+const FinancialReportList = () => {
   const [rows, setRows] = useState([]);
-  const userId = '123'; // Replace with actual userId
 
-  useEffect(() => {
-    axios.get(`http://localhost:8090/api/public/financial/user/{userId}`)
+  useEffect(() => { // Replace with actual userId
+    axios.get(`http://localhost:8090/api/public/financial/`)
       .then((res) => setRows(res.data))
       .catch((err) => console.error('Error fetching financial reports:', err));
-  }, [userId]);
+  }, []);
 
   const handleDelete = (financialId) => {
-    axios.delete(`http://localhost:8090/api/public/financial/{financialId}`)
+    axios.delete(`http://localhost:8090/api/public/financial/`)
       .then(() => setRows(rows.filter(row => row.financialId !== financialId)))
       .catch((err) => console.error('Error deleting financial report:', err));
   };
 
   return (
-    <Box sx={{ height: 500, width: '100%' }}>
+    <Box className="Table" sx={{ height: 500, width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns(handleDelete)}
@@ -57,3 +56,5 @@ export default function FinancialReportList() {
     </Box>
   );
 }
+
+export default FinancialReportList;

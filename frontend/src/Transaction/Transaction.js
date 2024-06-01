@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TransactionTable from './TransactionTable';
 import TransactionNew from './TransactionNew'; // Ensure you import the correct component here
-import './Transaction.css';
+import  '../CssFolder/Table.css';
 
 function Transaction() {
   const [showTable, setShowTable] = useState(false);

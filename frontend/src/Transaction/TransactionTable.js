@@ -3,7 +3,6 @@ import {
   DataGrid,
   GridRowModes,
   GridActionsCellItem,
-  GridToolbarContainer,
   GridRowEditStopReasons
 } from '@mui/x-data-grid';
 import axios from 'axios';
@@ -12,7 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
-import './Transaction.css';
+import '../CssFolder/Table.css';
 
 const columns = (rowModesModel, handleEditClick, handleSaveClick, handleCancelClick, handleDeleteClick) => [
   { field: 'transactionId', headerName: 'TransactionID', width: 100 },
@@ -70,7 +69,7 @@ export default function TransactionTable() {
   const [rowModesModel, setRowModesModel] = useState({});
 
   useEffect(() => {
-    axios.get("http://localhost:8090/api/public/transactions/") // Replace 123 with the actual user ID
+    axios.get("http://localhost:8090/api/public/transactions/") 
       .then((res) => setRows(res.data.map((row) => ({ ...row, id: row.transactionId }))));
   }, []);
 
