@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import axios from 'axios'; // Import axios
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
@@ -12,24 +11,13 @@ import {
 } from '@mui/x-data-grid';
 import '../CssFolder/Table.css';
 
-const initialRows = [
-  {
-    id: '1',
-    balanceId: '1563',
-    date: new Date().toISOString().slice(0, 10),
-    assets: '',
-    liabilities: '',
-    equity: '',
-    userId: '',
-    isNew: true
-  }
-];
+const initialRows = [];
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
   const handleClick = () => {
-    const id = Math.floor(1000 + Math.random() * 9000); // Generate random four-digit number
+    const id = Math.floor(1000 + Math.random() * 9000);
     setRows(oldRows => [...oldRows, { id: id.toString(), balanceId: id.toString(), date: new Date().toISOString().slice(0, 10), assets: '', liabilities: '', equity: '', userId: '', isNew: true }]);
     setRowModesModel(oldModel => ({
       ...oldModel,
@@ -62,18 +50,26 @@ export default function NewBalanceSheet() {
   };
 
   const handleSaveClick = id => async () => {
-    const rowToSave = rows.find(row => row.id === id);
     try {
-      // Make API call to save the data
-      const response = await axios.post('http://localhost:8090//api/public/balanceSheet/', rowToSave); // Adjust the endpoint as needed
-      if (response.status === 200) {
-        setRowModesModel({ ...rowModesModel, [id]: { mode: 'View' } });
-        delete pendingRowChanges.current[id];
-      } else {
-        console.error('Error saving data:', response);
+      const rowToSave = rows.find(row => row.id === id);
+      if (!rowToSave) return;
+
+      const response = await fetch('http://localhost:8090/api/public/balanceSheet/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(rowToSave),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save the balance sheet');
       }
+
+      setRowModesModel({ ...rowModesModel, [id]: { mode: 'View' } });
+      delete pendingRowChanges.current[id];
     } catch (error) {
-      console.error('Error saving data:', error);
+      console.error('Error saving balance sheet:', error);
     }
   };
 
@@ -94,7 +90,6 @@ export default function NewBalanceSheet() {
 
   const handleConfirmLeave = () => {
     leaveConfirmationDialogOpen.current = false;
-    // Here you can implement any specific action when the user confirms leaving the row without saving
   };
 
   const columns = [
