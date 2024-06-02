@@ -1,11 +1,24 @@
 import React, { useState, useRef } from 'react';
+import axios from 'axios';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 import { DataGrid, GridToolbarContainer, GridActionsCellItem, GridRowEditStopReasons } from '@mui/x-data-grid';
 
-const initialRows = [];
+const initialRows = [
+  {
+    id: '1',
+    financialId: '1563',
+    userId: '',
+    periodStart: new Date().toISOString().slice(0, 10),
+    periodEnd: new Date().toISOString().slice(0, 10),
+    netProfit: '',
+    totalIncome: '',
+    totalExpenses: '',
+    isNew: true
+  }
+];
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -43,16 +56,36 @@ const NewFinancialReport = () => {
     }
   };
 
-  const handleSaveClick = id => () => {
+  const handleSaveClick = id => async () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: 'View' } });
-    delete pendingRowChanges.current[id];
+    const updatedRow = rows.find(row => row.id === id);
+    if (updatedRow.isNew) {
+      try {
+        await axios.post('http://localhost:8090/api/public/financial/', updatedRow);
+        setRows(rows.map(row => (row.id === id ? { ...row, isNew: false } : row)));
+      } catch (error) {
+        console.error('Error saving new record:', error);
+      }
+    } else {
+      delete pendingRowChanges.current[id];
+    }
   };
 
-  const processRowUpdate = newRow => {
+  const processRowUpdate = async (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
-    setRows(rows.map(row => (row.id === newRow.id ? updatedRow : row)));
-    delete pendingRowChanges.current[newRow.id];
-    return updatedRow;
+    try {
+      if (newRow.isNew) {
+        await axios.post('http://localhost:8090/api/public/financial/', updatedRow);
+      } else {
+        await axios.put('http://localhost:8090/api/public/financial/${newRow.id}', updatedRow);
+      }
+      setRows(rows.map(row => (row.id === newRow.id ? updatedRow : row)));
+      delete pendingRowChanges.current[newRow.id];
+      return updatedRow;
+    } catch (error) {
+      console.error('Error saving record:', error);
+      return newRow;
+    }
   };
 
   const handleRowModesModelChange = newRowModesModel => {

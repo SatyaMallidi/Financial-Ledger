@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import axios from 'axios'; // Import axios
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
@@ -11,8 +12,18 @@ import {
 } from '@mui/x-data-grid';
 import '../CssFolder/Table.css';
 
-// Initialize rows as an empty array
-const initialRows = [];
+const initialRows = [
+  {
+    id: '1',
+    balanceId: '1563',
+    date: new Date().toISOString().slice(0, 10),
+    assets: '',
+    liabilities: '',
+    equity: '',
+    userId: '',
+    isNew: true
+  }
+];
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -50,9 +61,20 @@ export default function NewBalanceSheet() {
     }
   };
 
-  const handleSaveClick = id => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: 'View' } });
-    delete pendingRowChanges.current[id];
+  const handleSaveClick = id => async () => {
+    const rowToSave = rows.find(row => row.id === id);
+    try {
+      // Make API call to save the data
+      const response = await axios.post('http://localhost:8090//api/public/balanceSheet/', rowToSave); // Adjust the endpoint as needed
+      if (response.status === 200) {
+        setRowModesModel({ ...rowModesModel, [id]: { mode: 'View' } });
+        delete pendingRowChanges.current[id];
+      } else {
+        console.error('Error saving data:', response);
+      }
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
   };
 
   const processRowUpdate = newRow => {

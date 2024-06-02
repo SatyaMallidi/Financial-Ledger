@@ -11,10 +11,21 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
+import axios from 'axios';
 import '../CssFolder/Table.css';
 
-// Initialize rows as an empty array
-const initialRows = [];
+const initialRows = [
+  {
+    id: '1',
+    transactionId: '1563',
+    date: new Date().toISOString().slice(0, 10),
+    amount: '',
+    description: '',
+    type: 'Income', // Default type value for the first row
+    userId: '',
+    isNew: true
+  }
+];
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -52,8 +63,21 @@ export default function TransactionNewTable() {
     }
   };
 
-  const handleSaveClick = id => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: 'View' } });
+  const handleSaveClick = id => async () => {
+    const row = rows.find(row => row.id === id);
+    if (row.isNew) {
+      try {
+        await axios.post('http://localhost:8090/api/public/transactions/', row);
+        setRows(rows.map(r => (r.id === id ? { ...r, isNew: false } : r)));
+        setRowModesModel({ ...rowModesModel, [id]: { mode: 'View' } });
+        console.log('Successfully saved');
+      } catch (error) {
+        console.error('Error saving transaction:', error);
+      }
+    } else {
+      // Handle updating existing rows if necessary
+      console.log('Update existing row logic here');
+    }
     delete pendingRowChanges.current[id];
   };
 
@@ -74,6 +98,7 @@ export default function TransactionNewTable() {
 
   const handleConfirmLeave = () => {
     leaveConfirmationDialogOpen.current = false;
+    // Here you can implement any specific action when the user confirms leaving the row without saving
   };
 
   const columns = [
