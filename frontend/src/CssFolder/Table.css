@@ -2,86 +2,84 @@
   margin-top: 80px;
 }
 
-button.blue-button {
-  background-color: #002d62; /* Dark blue background */
-  color: #ffffff; /* White text */
-  padding: 15px 30px; /* Padding for the button */
-  font-size: 16px; /* Font size */
-  font-weight: bold; /* Bold text */
-  border: none; /* No border */
-  border-radius: 30px; /* Rounded corners */
-  text-align: center; /* Centered text */
-  text-decoration: none; /* No underline */
-  display: inline-block; /* Inline-block display */
-  cursor: pointer; /* Pointer cursor on hover */
-  position: relative; /* Relative positioning */
-  transition: all 0.3s ease; /* Smooth transition */
-  box-shadow: 0 0 20px #0073e6, 0 0 20px #0073e6 inset; /* Dark blue glowing shadow */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  height: 100vh;
 }
 
-button.blue-button::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  border-radius: 30px;
-  background: linear-gradient(45deg, #0073e6, #002d62, #0073e6, #002d62);
-  z-index: -1;
-  filter: blur(20px);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+.background-image {
+  background-image: url('C:\Users\SATISH REDDY\Financial-Ledger\frontend\src\Images\FL-Blogo.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
-button.blue-button:hover::before {
-  opacity: 1;
-}
-.green-button {
-  background-color: #004d00; /* Dark green background */
-  color: #ffffff; /* White text */
-  padding: 15px 30px; /* Padding for the button */
-  font-size: 16px; /* Font size */
-  font-weight: bold; /* Bold text */
-  border: none; /* No border */
-  border-radius: 30px; /* Rounded corners */
-  text-align: center; /* Centered text */
-  text-decoration: none; /* No underline */
-  display: inline-block; /* Inline-block display */
-  cursor: pointer; /* Pointer cursor on hover */
-  position: relative; /* Relative positioning */
-  transition: all 0.3s ease; /* Smooth transition */
-  box-shadow: 0 0 20px #00ff00, 0 0 20px #00ff00 inset; /* Glowing shadow */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 45px;
+  margin-top: 120px; 
 }
 
-.green-button::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  border-radius: 30px;
-  background: linear-gradient(45deg, #00ff00, #008000, #00ff00, #008000);
-  z-index: -1;
-  filter: blur(20px);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.green-button:hover::before {
-  opacity: 1;
-}
-
-.Table{
-  margin-top: 100px;
-}
-
-.orange-button {
-  background-color: orange;
-  color: white;
-  padding: 10px 20px;
-  margin: 10px;
-  border: none;
+.button-75 {
+  align-items: center;
+  background-image: linear-gradient(135deg, #002D62 40%, #002D62);
+  border: 0;
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: #fff;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-family: "Codec cold", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  height: 54px;
+  justify-content: center;
+  letter-spacing: .4px;
+  line-height: 1;
+  max-width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 3px;
+  text-decoration: none;
+  text-transform: uppercase;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
 }
+
+.button-75:active {
+  outline: 0;
+}
+
+.button-75:hover {
+  outline: 0;
+}
+
+.button-75 span {
+  transition: all 200ms;
+}
+
+.button-75:hover span {
+  transform: scale(0.9);
+  opacity: 0.50;
+}
+
+@media screen and (max-width: 991px) {
+  .button-75 {
+    font-size: 15px;
+    height: 50px;
+  }
+
+  .button-75 span {
+    line-height: 50px;
+  }
+}
+

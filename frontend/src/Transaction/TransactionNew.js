@@ -13,25 +13,15 @@ import {
 } from '@mui/x-data-grid';
 import '../CssFolder/Table.css';
 
-const initialRows = [
-  {
-    id: '1',
-    transactionId: '1563',
-    date: new Date().toISOString().slice(0, 10),
-    amount: '',
-    description: '',
-    type: 'Income', // Default type value for the first row
-    userId: '',
-    isNew: true
-  }
-];
+// Initialize rows as an empty array
+const initialRows = [];
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
   const handleClick = () => {
     const id = Math.floor(1000 + Math.random() * 9000); // Generate random four-digit number
-    setRows(oldRows => [...oldRows, { id: id.toString(), transactionId: id.toString(), date: new Date().toISOString().slice(0, 10), amount: '', description: '', type: '', userId: '', isNew: true }]);
+    setRows(oldRows => [...oldRows, { id: id.toString(), transactionId: id.toString(), date: new Date().toISOString().slice(0, 10), amount: '', description: '', type: 'Income', userId: '', isNew: true }]);
     setRowModesModel(oldModel => ({
       ...oldModel,
       [id]: { mode: 'Edit', fieldToFocus: 'transactionId' }
@@ -84,7 +74,6 @@ export default function TransactionNewTable() {
 
   const handleConfirmLeave = () => {
     leaveConfirmationDialogOpen.current = false;
-    // Here you can implement any specific action when the user confirms leaving the row without saving
   };
 
   const columns = [
@@ -181,4 +170,3 @@ export default function TransactionNewTable() {
     </Box>
   );
 }
-

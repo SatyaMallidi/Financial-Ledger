@@ -25,9 +25,12 @@ function Transaction() {
         <TransactionNew />
       ) : (
         <>
-          <p>Financial Report</p>
-          <button className="blue-button" onClick={handleNewButtonClick}>Create new</button>
-          <button className="green-button" onClick={handleButtonClick}>All Transactions</button>
+        <div className="background-image">
+        <div className="button-container">
+          <button className="button-75" onClick={handleNewButtonClick}><span>Create new</span></button>
+          <button className="button-75" onClick={handleButtonClick}><span>All Transactions</span></button>
+          </div>
+          </div>
         </>
       )}
     </>

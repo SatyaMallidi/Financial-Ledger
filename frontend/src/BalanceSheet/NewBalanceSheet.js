@@ -11,18 +11,8 @@ import {
 } from '@mui/x-data-grid';
 import '../CssFolder/Table.css';
 
-const initialRows = [
-  {
-    id: '1',
-    balanceId: '1563',
-    date: new Date().toISOString().slice(0, 10),
-    assets: '',
-    liabilities: '',
-    equity: '',
-    userId: '',
-    isNew: true
-  }
-];
+// Initialize rows as an empty array
+const initialRows = [];
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;

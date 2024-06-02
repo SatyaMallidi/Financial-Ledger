@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -17,11 +16,22 @@ const settings = ['Profile', 'AccountSettings', 'Logout'];
 
 function Navigation() {
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const loggedInUser = "Kandy";
+  const [loggedInUser, setLoggedInUser] = useState("");
+
+  useEffect(() => {
+    const fetchLoggedInUser = async () => {
+      const userInformation = await getUserInformation();
+      if (userInformation && userInformation.username) {
+        setLoggedInUser(userInformation.username);
+      }
+    };
+
+    fetchLoggedInUser();
+  }, []);
 
   const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
   const handleCloseUserMenu = () => setAnchorElUser(null);
-  const getFirstLetter = (str) => str.charAt(0).toUpperCase();
+  const firstLetter = loggedInUser ? loggedInUser.charAt(0).toUpperCase() : "";
 
   return (
     <AppBar position="fixed" sx={{ backgroundColor: '#002D62' }}>
@@ -47,7 +57,7 @@ function Navigation() {
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ ml: 2 }}>
             <Avatar sx={{ bgcolor: '#e32636' }}>
-              {getFirstLetter(loggedInUser)}
+              {firstLetter}
             </Avatar>
           </IconButton>
         </Tooltip>
@@ -69,3 +79,9 @@ function Navigation() {
 }
 
 export default Navigation;
+
+async function getUserInformation() {
+  // Simulated fetching user information from an authentication context or API
+  // Replace this with your actual logic to fetch the user's information
+  return { username: "Satya123" }; // Simulated user information object
+}

@@ -37,10 +37,13 @@ function FinancialReport() {
                 <UnifiedFinancialReport />
             ) : (
                 <>
-                    <p>Financial Report</p>
-                    <button className="blue-button" onClick={handleNewFinancialReportClick}>Create new</button>
-                    <button className="green-button" onClick={handleFinancialReportListClick}>All Financial Reports</button>
-                    <button className="orange-button" onClick={handleUnifiedFinancialReportClick}>Unified Financial Report</button>
+                <div className='background-image'>
+                <div className="button-container">
+                    <button className="button-75" onClick={handleNewFinancialReportClick}><span>Create new</span></button>
+                    <button className="button-75" onClick={handleFinancialReportListClick}><span>All Financial Reports</span></button>
+                    <button className="button-75" onClick={handleUnifiedFinancialReportClick}><span>Unified Financial Report</span></button>
+                    </div>
+                    </div>
                 </>
             )}
         </>

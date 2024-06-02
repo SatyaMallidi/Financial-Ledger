@@ -5,19 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 import { DataGrid, GridToolbarContainer, GridActionsCellItem, GridRowEditStopReasons } from '@mui/x-data-grid';
 
-const initialRows = [
-  {
-    id: '1',
-    financialId: '1563',
-    userId: '',
-    periodStart: new Date().toISOString().slice(0, 10),
-    periodEnd: new Date().toISOString().slice(0, 10),
-    netProfit: '',
-    totalIncome: '',
-    totalExpenses: '',
-    isNew: true
-  }
-];
+const initialRows = [];
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;

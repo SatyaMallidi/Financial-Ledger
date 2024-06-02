@@ -3,7 +3,8 @@ import React from 'react';
 function Home(){
     return(
         <>
-        <p>Home</p>
+        <div className='background-image'>
+        </div>
         </>
     );
 }

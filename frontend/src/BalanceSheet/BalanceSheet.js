@@ -3,10 +3,6 @@ import BalanceSheetList from './BalanceSheetList';
 import NewBalanceSheet from './NewBalanceSheet';
 import  '../CssFolder/Table.css';
 
-
-
-
-
 function BalanceSheet() {
     const [showTable, setShowTable] = useState(false);
     const [showNewTable, setShowNewTable] = useState(false);
@@ -30,9 +26,12 @@ function BalanceSheet() {
         <NewBalanceSheet/>
       ) : (
             <>
-              <p>Financial Report</p>
-              <button class="blue-button" onClick={handleNewBalanceSheetClick}>Create new</button>
-              <button class="green-button" onClick={handleBalanceSheetListClick}>All BlanceSheet</button>
+            <div className='background-image'>
+            <div className="button-container">
+              <button class="button-75" onClick={handleNewBalanceSheetClick}><span>Create new</span></button>
+              <button class="button-75" onClick={handleBalanceSheetListClick}><span>All BlanceSheet</span></button>
+            </div>
+            </div>
             </>
           )}
         </>
