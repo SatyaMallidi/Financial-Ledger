@@ -76,3 +76,12 @@ button.blue-button:hover::before {
 .Table{
   margin-top: 100px;
 }
+
+.orange-button {
+  background-color: orange;
+  color: white;
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  cursor: pointer;
+}

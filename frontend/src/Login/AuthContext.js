@@ -39,15 +39,13 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      const response = await axios.post('http://localhost:8090/api/user/logout');
-      
-      if (response.status === 200) {
-        setIsLoggedIn(false);
-      }
+      await axios.post('http://localhost:8090/api/user/logout');
+      setAuth(null);
     } catch (error) {
       console.error('Logout failed:', error);
     }
   };
+
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, login, register, logout }}>
