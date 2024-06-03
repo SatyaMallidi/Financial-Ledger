@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.dataworks.financialledger.DTO.TransactionDTO;
 import com.example.dataworks.financialledger.entity.Transaction;
 import com.example.dataworks.financialledger.entity.TransactionType;
 import com.example.dataworks.financialledger.service.TransactionService;
@@ -60,10 +61,10 @@ public class TransactionController {
         return transactions;
     }
 
-    @PostMapping("/")
-    public Transaction newTransaction(@RequestBody Transaction transaction) {
-        Transaction createdTransaction = transactionService.createTransaction(transaction);
-        return createdTransaction;
+   @PostMapping("/")
+    public Transaction createTransaction(@RequestBody TransactionDTO transactionDTO) {
+    Transaction createdTransaction = transactionService.createTransaction(transactionDTO);
+    return createdTransaction;
     }
 
     @DeleteMapping("/{transactionId}")

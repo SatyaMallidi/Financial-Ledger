@@ -3,12 +3,13 @@ package com.example.dataworks.financialledger.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.example.dataworks.financialledger.DTO.TransactionDTO;
 import com.example.dataworks.financialledger.entity.Transaction;
 import com.example.dataworks.financialledger.entity.TransactionType;
 
 public interface TransactionService {
 
-    Transaction createTransaction(Transaction transaction);
+    Transaction saveTransaction(Transaction transaction);
 
     Transaction updateTransaction(Long transactionId, Transaction transaction);
 
@@ -24,4 +25,5 @@ public interface TransactionService {
 
     List<Transaction> getTransactionsByUserId(Long userId);
 
+    Transaction createTransaction(TransactionDTO transactionDTO);
 }

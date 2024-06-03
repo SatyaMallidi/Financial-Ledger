@@ -1,10 +1,10 @@
 package com.example.dataworks.financialledger.controller;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.dataworks.financialledger.DTO.FinancialReportDTO;
 import com.example.dataworks.financialledger.entity.FinancialReport;
 import com.example.dataworks.financialledger.service.FinancialReportService;
 
@@ -27,9 +27,10 @@ public class FinancialReportController {
         this.financialReportService = financialReportService;
     }
 
-    @PostMapping("/")
-    public FinancialReport newFinancialReport(@RequestBody FinancialReport financialReport) {
-        return financialReportService.createFinancialReport(financialReport);
+     @PostMapping("/")
+    public FinancialReport createFinancialReport(@RequestBody FinancialReportDTO financialReportDTO) {
+    FinancialReport createdFinancialReport = financialReportService.createFinancialReport(financialReportDTO);
+    return createdFinancialReport;
     }
 
     @GetMapping("/{financialId}")

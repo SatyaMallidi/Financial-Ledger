@@ -21,7 +21,7 @@ public class FinancialReport {
     @Column(name = "financialId")
     private Long financialId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

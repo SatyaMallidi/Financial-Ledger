@@ -3,26 +3,31 @@ package com.example.dataworks.financialledger.service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.dataworks.financialledger.DTO.TransactionDTO;
 import com.example.dataworks.financialledger.Exception.TransactionExceptionNotFound;
 import com.example.dataworks.financialledger.Exception.UserExceptionNotFound;
 import com.example.dataworks.financialledger.entity.Transaction;
 import com.example.dataworks.financialledger.entity.TransactionType;
+import com.example.dataworks.financialledger.entity.User;
 import com.example.dataworks.financialledger.repository.TransactionRepository;
+import com.example.dataworks.financialledger.repository.UserRepository;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
-    @Autowired
     private TransactionRepository transactionRepository;
+    private UserRepository userRepository;
+    public TransactionServiceImpl(TransactionRepository transactionRepository, UserRepository userRepository) {
+        this.transactionRepository = transactionRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     @Transactional
-    public Transaction createTransaction(Transaction transaction) {
+    public Transaction saveTransaction(Transaction transaction) {
         Transaction transaction2 = transactionRepository.save(transaction);
         if (transaction2 == null) {
             throw new TransactionExceptionNotFound("Transaction is not saved");
@@ -94,4 +99,17 @@ public class TransactionServiceImpl implements TransactionService {
         }
         return transactionRepository.save(transaction);
     }
+
+   @Override
+public Transaction createTransaction(TransactionDTO transactionDTO) {
+    User user = userRepository.findById(transactionDTO.getUserId())
+                              .orElseThrow(() -> new RuntimeException("User not found"));
+    Transaction transaction = new Transaction();
+    transaction.setUser(user);
+    transaction.setDate(transactionDTO.getDate() != null ? transactionDTO.getDate() : LocalDate.now());
+    transaction.setAmount(transactionDTO.getAmount());
+    transaction.setDescription(transactionDTO.getDescription());
+    transaction.setType(transactionDTO.getType());
+    return transactionRepository.save(transaction);
+}
 }

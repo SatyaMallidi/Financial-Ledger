@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.dataworks.financialledger.DTO.BalanceSheetDTO;
 import com.example.dataworks.financialledger.entity.BalanceSheet;
 import com.example.dataworks.financialledger.service.BalanceSheetService;
 
@@ -28,9 +29,10 @@ public class BalanceSheetController {
     }
 
     @PostMapping("/")
-    public BalanceSheet newBalanceSheet(@RequestBody BalanceSheet balanceSheet) {
-        return balanceSheetService.saveBalanceSheet(balanceSheet);
-    }
+    public BalanceSheet createBalanceSheet(@RequestBody BalanceSheetDTO balanceSheetDTO) {
+    BalanceSheet createdBalanceSheet = balanceSheetService.createBalanceSheet(balanceSheetDTO);
+    return createdBalanceSheet;
+   }
 
     @GetMapping("/{balanceId}")
     public BalanceSheet getById(@PathVariable Long balanceId) {

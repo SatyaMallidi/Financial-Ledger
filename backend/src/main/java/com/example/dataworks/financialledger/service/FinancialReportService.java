@@ -1,12 +1,12 @@
 package com.example.dataworks.financialledger.service;
-
 import java.util.List;
 
+import com.example.dataworks.financialledger.DTO.FinancialReportDTO;
 import com.example.dataworks.financialledger.entity.FinancialReport;
 
 public interface FinancialReportService {
 
-    FinancialReport createFinancialReport(FinancialReport financialReport);
+    FinancialReport saveFinancialReport(FinancialReport financialReport);
 
     FinancialReport updFinancialReport(Long financialId, FinancialReport financialReport);
 
@@ -24,4 +24,5 @@ public interface FinancialReportService {
 
     List<FinancialReport> generateQuarterlyReport(Long userId, int year, int quarter);
 
+    FinancialReport createFinancialReport(FinancialReportDTO financialReportDTO);
 }

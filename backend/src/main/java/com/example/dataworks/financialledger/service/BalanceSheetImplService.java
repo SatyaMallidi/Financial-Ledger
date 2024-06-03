@@ -1,22 +1,30 @@
 package com.example.dataworks.financialledger.service;
-
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.dataworks.financialledger.DTO.BalanceSheetDTO;
 import com.example.dataworks.financialledger.Exception.BalanceSheetExceptionNotFound;
 import com.example.dataworks.financialledger.Exception.UserExceptionNotFound;
 import com.example.dataworks.financialledger.entity.BalanceSheet;
+import com.example.dataworks.financialledger.entity.User;
 import com.example.dataworks.financialledger.repository.BalanceSheetRepository;
+import com.example.dataworks.financialledger.repository.UserRepository;
 
 @Service
 public class BalanceSheetImplService implements BalanceSheetService {
 
-    @Autowired
     private BalanceSheetRepository balanceSheetRepository;
+    private UserRepository userRepository;
+    
+    public BalanceSheetImplService(BalanceSheetRepository balanceSheetRepository, 
+                               UserRepository userRepository) {
+    this.balanceSheetRepository = balanceSheetRepository;
+    this.userRepository = userRepository;
+}
+
 
     @Override
     @Transactional
@@ -72,4 +80,16 @@ public class BalanceSheetImplService implements BalanceSheetService {
         }
         return balanceSheetRepository.save(balanceSheet);
     }
+
+    public BalanceSheet createBalanceSheet(BalanceSheetDTO balanceSheetDTO) {
+    User user = userRepository.findById(balanceSheetDTO.getUserId())
+                              .orElseThrow(() -> new RuntimeException("User not found"));
+    BalanceSheet balanceSheet = new BalanceSheet();
+    balanceSheet.setUser(user);
+    balanceSheet.setDate(balanceSheetDTO.getDate());
+    balanceSheet.setAssets(balanceSheetDTO.getAssets());
+    balanceSheet.setLiabilities(balanceSheetDTO.getLiabilities());
+    balanceSheet.setEquity(balanceSheetDTO.getEquity());
+    return balanceSheetRepository.save(balanceSheet);
+}
 }
