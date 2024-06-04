@@ -13,6 +13,7 @@ public interface FinancialReportService {
     FinancialReport getFinancialReport(Long financialId);
 
     void deleteFinancialReport(Long financialId);
+    public List<FinancialReport> getAllFinancialReports();
 
     void deleteFinancialReportByUserId(Long userId);
 

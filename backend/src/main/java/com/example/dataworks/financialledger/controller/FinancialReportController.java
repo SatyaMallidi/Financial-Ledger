@@ -33,6 +33,7 @@ public class FinancialReportController {
     return createdFinancialReport;
     }
 
+
     @GetMapping("/{financialId}")
     public FinancialReport getFinancialReport(@PathVariable Long financialId) {
         FinancialReport financialReport = financialReportService.getFinancialReport(financialId);
@@ -91,5 +92,10 @@ public class FinancialReportController {
             existingReport.setTotalIncome(financialReport.getTotalIncome());
         }
         return financialReportService.updFinancialReport(financialId, existingReport);
+    }
+
+    @GetMapping("/")
+    public List<FinancialReport> getAllFinancialReports() {
+        return financialReportService.getAllFinancialReports();
     }
 }

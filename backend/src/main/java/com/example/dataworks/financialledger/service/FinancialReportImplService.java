@@ -123,4 +123,14 @@ public FinancialReport createFinancialReport(FinancialReportDTO financialReportD
     return financialRepository.save(financialReport);
 }
 
+@Override
+@Transactional(readOnly = true)
+public List<FinancialReport> getAllFinancialReports() {
+    List<FinancialReport> financialReports = financialRepository.findAll();
+    if (financialReports == null) {
+        throw new UserExceptionNotFound("The FinancialReport is not found");
+    }
+    return financialReports;
+}
+
 }
