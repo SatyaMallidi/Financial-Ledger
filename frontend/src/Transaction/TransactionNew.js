@@ -5,27 +5,25 @@ import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import {
-  DataGrid,
-  GridToolbarContainer,
-  GridActionsCellItem,
-  GridRowEditStopReasons,
-} from '@mui/x-data-grid';
-import '../CssFolder/Table.css';
+import { DataGrid, GridToolbarContainer, GridActionsCellItem, GridRowEditStopReasons } from '@mui/x-data-grid';
 
-// Initialize rows as an empty array
 const initialRows = [];
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
   const handleClick = () => {
-    const id = Math.floor(1000 + Math.random() * 9000); // Generate random four-digit number
-    setRows(oldRows => [...oldRows, { id: id.toString(), transactionId: id.toString(), date: new Date().toISOString().slice(0, 10), amount: '', description: '', type: 'Income', userId: '', isNew: true }]);
+    const id = Math.floor(100 + Math.random() * 900); // Generate random three-digit number
+    setRows(oldRows => [...oldRows, { id: id.toString(), transactionId: generateTransactionId(), date: new Date().toISOString().slice(0, 10), amount: '', description: '', type: 'Income', userId: '', isNew: true }]);
     setRowModesModel(oldModel => ({
       ...oldModel,
       [id]: { mode: 'Edit', fieldToFocus: 'transactionId' }
     }));
+  };
+
+  const generateTransactionId = () => {
+    const randomDigits = Math.floor(100 + Math.random() * 900); // Generate random three-digit number
+    return `${randomDigits}`;
   };
 
   return (
@@ -57,20 +55,25 @@ export default function TransactionNewTable() {
       const rowToSave = rows.find(row => row.id === id);
       if (!rowToSave) return;
 
-      // Send the data to the API
+      const rowToSaveUpperCase = { ...rowToSave, type: rowToSave.type.toUpperCase() };
+
+      console.log('Attempting to save the following transaction:', rowToSaveUpperCase);
+
       const response = await fetch('http://localhost:8090/api/public/transactions/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(rowToSave),
+        body: JSON.stringify(rowToSaveUpperCase),
       });
 
+      console.log('Server response:', response);
+
       if (!response.ok) {
-        throw new Error('Failed to save the transaction');
+        const errorText = await response.text(); // Get more detailed error message from the server
+        throw new Error(`Failed to save the transaction: ${errorText}`);
       }
 
-      // If successful, change the row mode to view
       setRowModesModel({ ...rowModesModel, [id]: { mode: 'View' } });
       delete pendingRowChanges.current[id];
     } catch (error) {
@@ -113,8 +116,8 @@ export default function TransactionNewTable() {
             setRows(updatedRows);
           }}
         >
-          <MenuItem value="Income">Income</MenuItem>
-          <MenuItem value="Expense">Expense</MenuItem>
+          <MenuItem value="Income">INCOME</MenuItem>
+          <MenuItem value="Expense">EXPENSE</MenuItem>
         </Select>
       )
     },
@@ -157,7 +160,7 @@ export default function TransactionNewTable() {
       <DataGrid
         rows={rows}
         columns={columns}
-        editMode="row"
+        editMode="cell"
         rowModesModel={rowModesModel}
         onRowModesModelChange={handleRowModesModelChange}
         onRowEditStop={handleRowEditStop}

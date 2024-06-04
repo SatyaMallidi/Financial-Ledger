@@ -134,7 +134,7 @@ export default function NewBalanceSheet() {
       <DataGrid
         rows={rows}
         columns={columns}
-        editMode="row"
+        editMode="cell" // Change editMode to "cell"
         rowModesModel={rowModesModel}
         onRowModesModelChange={handleRowModesModelChange}
         onRowEditStop={handleRowEditStop}

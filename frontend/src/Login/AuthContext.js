@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await axios.post('http://localhost:8090/api/user/logout');
-      setAuth(null);
+      // setAuth(null);
     } catch (error) {
       console.error('Logout failed:', error);
     }

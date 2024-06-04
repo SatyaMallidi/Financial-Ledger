@@ -69,9 +69,11 @@ export default function TransactionTable() {
   const [rowModesModel, setRowModesModel] = useState({});
 
   useEffect(() => {
-    axios.get("http://localhost:8090/api/public/transactions/") 
-      .then((res) => setRows(res.data.map((row) => ({ ...row, id: row.transactionId }))));
+    axios.get("http://localhost:8090/api/public/transactions")
+      .then((res) => setRows(res.data.map((row) => ({ ...row, id: row.transactionId }))))
+      .catch((err) => console.error(err));
   }, []);
+  
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {

@@ -11,12 +11,18 @@ function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
   const handleClick = () => {
-    const id = Math.floor(1000 + Math.random() * 9000); // Generate random four-digit number
-    setRows(oldRows => [...oldRows, { id: id.toString(), financialId: id.toString(), userId: '', periodStart: new Date().toISOString().slice(0, 10), periodEnd: new Date().toISOString().slice(0, 10), netProfit: '', totalIncome: '', totalExpenses: '', isNew: true }]);
+    const id = Math.floor(100 + Math.random() * 900); // Generate random three-digit number
+    setRows(oldRows => [...oldRows, { id: id.toString(), financialId: generateFinancialId(), userId: '', periodStart: new Date().toISOString().slice(0, 10), periodEnd: new Date().toISOString().slice(0, 10), netProfit: '', totalIncome: '', totalExpenses: '', isNew: true }]);
     setRowModesModel(oldModel => ({
       ...oldModel,
       [id]: { mode: 'Edit', fieldToFocus: 'financialId' }
     }));
+  };
+
+  // Function to generate financial ID
+  const generateFinancialId = () => {
+    const randomDigits = Math.floor(100 + Math.random() * 900); // Generate random three-digit number
+    return `${randomDigits}`;
   };
 
   return (
@@ -43,9 +49,33 @@ const NewFinancialReport = () => {
     }
   };
 
-  const handleSaveClick = id => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: 'View' } });
-    delete pendingRowChanges.current[id];
+  const handleSaveClick = id => async () => {
+    try {
+      const rowToSave = rows.find(row => row.id === id);
+      if (!rowToSave) return;
+
+      console.log('Attempting to save the following financial report:', rowToSave);
+
+      const response = await fetch('http://localhost:8090/api/public/financial/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(rowToSave),
+      });
+
+      console.log('Server response:', response);
+
+      if (!response.ok) {
+        const errorText = await response.text(); // Get more detailed error message from the server
+        throw new Error(`Failed to save the financial report: ${errorText}`);
+      }
+
+      setRowModesModel({ ...rowModesModel, [id]: { mode: 'View' } });
+      delete pendingRowChanges.current[id];
+    } catch (error) {
+      console.error('Error saving financial report:', error);
+    }
   };
 
   const processRowUpdate = newRow => {
@@ -65,11 +95,10 @@ const NewFinancialReport = () => {
 
   const handleConfirmLeave = () => {
     leaveConfirmationDialogOpen.current = false;
-    // Here you can implement any specific action when the user confirms leaving the row without saving
   };
 
   const columns = [
-    { field: 'financialId', headerName: 'Financial ID', width: 180, editable: true },
+    { field: 'financialId', headerName: 'Financial ID', width: 180, editable: false },
     { field: 'userId', headerName: 'User ID', width: 180, editable: true },
     { field: 'periodStart', headerName: 'Period Start', width: 180, editable: true },
     { field: 'periodEnd', headerName: 'Period End', width: 180, editable: true },
@@ -111,7 +140,7 @@ const NewFinancialReport = () => {
       <DataGrid
         rows={rows}
         columns={columns}
-        editMode="row"
+        editMode="cell"
         rowModesModel={rowModesModel}
         onRowModesModelChange={handleRowModesModelChange}
         onRowEditStop={handleRowEditStop}
