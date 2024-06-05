@@ -18,7 +18,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -28,7 +27,7 @@ public class SecurityConfig {
     private final CustomAccessDeniedHandler accessDeniedHandler;
 
     public SecurityConfig(JwtAuthenticationFilter jwtRequestFilter, UserDetailsService userDetailsServiceImpl,
-                          CustomAccessDeniedHandler accessDeniedHandler) {
+            CustomAccessDeniedHandler accessDeniedHandler) {
         this.jwtRequestFilter = jwtRequestFilter;
         this.userDetailsServiceImpl = userDetailsServiceImpl;
         this.accessDeniedHandler = accessDeniedHandler;
@@ -48,13 +47,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PATCH, "/api/user/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/user/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
-                ).userDetailsService(userDetailsServiceImpl)
+                        .anyRequest().authenticated())
+                .userDetailsService(userDetailsServiceImpl)
                 .exceptionHandling(e -> e.accessDeniedHandler(accessDeniedHandler)
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
@@ -65,9 +63,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    
 }
